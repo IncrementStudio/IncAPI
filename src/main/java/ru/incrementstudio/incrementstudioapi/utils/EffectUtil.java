@@ -16,7 +16,7 @@ public class EffectUtil {
     public static void addEffects(LivingEntity entity, List<String> effects, String separator) {
         for (String effect : effects) {
             String[] strings = effect.split(separator);
-            if (strings.length < 2 || strings.length > 3) return;
+            if (strings.length < 2 || strings.length > 3) continue;
             PotionEffectType effectType = PotionEffectType.getByName(strings[0]);
             if (effectType == null) return;
             int duration = 9999;
@@ -24,7 +24,7 @@ public class EffectUtil {
                 try {
                     duration = Integer.parseInt(strings[1]);
                 } catch (NumberFormatException ignored) {
-                    return;
+                    continue;
                 }
             }
             int value = 0;
@@ -32,7 +32,7 @@ public class EffectUtil {
                 if (strings.length == 3) value = Integer.parseInt(strings[2]);
                 if (strings.length == 2) value = Integer.parseInt(strings[1]);
             } catch (NumberFormatException ignored) {
-                return;
+                continue;
             }
             entity.addPotionEffect(new PotionEffect(effectType, duration * 20, value));
         }

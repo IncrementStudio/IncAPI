@@ -10,10 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Permission {
+    private Plugin plugin;
     private net.milkbowl.vault.permission.Permission permission;
     public final boolean isVaultSetup;
     public Permission(Plugin plugin) {
-        if (!setupPermissions(plugin)) {
+        this.plugin = plugin;
+        if (!setupPermissions()) {
             new Logger(plugin).error("Не удалось зарегистрировать систему разрешений Vault");
             isVaultSetup = false;
             return;
@@ -21,7 +23,7 @@ public class Permission {
         isVaultSetup = true;
     }
 
-    private boolean setupPermissions(Plugin plugin) {
+    private boolean setupPermissions() {
         if (plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }

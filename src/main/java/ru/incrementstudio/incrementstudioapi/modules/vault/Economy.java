@@ -7,10 +7,12 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import ru.incrementstudio.incrementstudioapi.Logger;
 
 public class Economy {
+    private Plugin plugin;
     private net.milkbowl.vault.economy.Economy economy;
     public final boolean isVaultSetup;
     public Economy(Plugin plugin) {
-        if (!setupEconomy(plugin)) {
+        this.plugin = plugin;
+        if (!setupEconomy()) {
             new Logger(plugin).error("Не удалось зарегистрировать денежную систему Vault");
             isVaultSetup = false;
             return;
@@ -18,7 +20,7 @@ public class Economy {
         isVaultSetup = true;
     }
 
-    private boolean setupEconomy(Plugin plugin) {
+    private boolean setupEconomy() {
         if (plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }

@@ -32,12 +32,12 @@ public class PluginUtil {
             command.setTabCompleter(tabCompleter);
         }
         catch (Exception exception) {
-            logger.error("Не удалось зарегистрировать команду для телепортации. Ошибка: ");
+            logger.error("Не удалось зарегистрировать команду &6'&e" + commandName + "&6'&c. Ошибка: ");
             exception.printStackTrace();
             try {
                 Bukkit.getPluginManager().disablePlugin(plugin);
             } catch (Exception exception1) {
-                logger.error("Произошла ошибка остановке плагина. Ошибка: ");
+                logger.error("Произошла ошибка во время остановки плагина. Ошибка: ");
                 exception1.printStackTrace();
             }
         }

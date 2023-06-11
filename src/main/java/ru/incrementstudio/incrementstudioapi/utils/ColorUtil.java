@@ -1,6 +1,5 @@
 package ru.incrementstudio.incrementstudioapi.utils;
 
-import com.deepl.api.Translator;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
@@ -73,5 +72,4 @@ public class ColorUtil {
         }
         return string;
     }
-
 }

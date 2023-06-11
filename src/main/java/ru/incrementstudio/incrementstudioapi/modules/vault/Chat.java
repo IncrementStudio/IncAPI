@@ -5,10 +5,12 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import ru.incrementstudio.incrementstudioapi.Logger;
 
 public class Chat {
+    private Plugin plugin;
     private net.milkbowl.vault.chat.Chat chat;
     public final boolean isVaultSetup;
     public Chat(Plugin plugin) {
-        if (!setupChat(plugin)) {
+        this.plugin = plugin;
+        if (!setupChat()) {
             new Logger(plugin).error("Не удалось зарегистрировать систему чата Vault");
             isVaultSetup = false;
             return;
@@ -16,7 +18,7 @@ public class Chat {
         isVaultSetup = true;
     }
 
-    private boolean setupChat(Plugin plugin) {
+    private boolean setupChat() {
         if (plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
