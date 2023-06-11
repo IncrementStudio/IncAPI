@@ -59,6 +59,9 @@ public class MessagesUtil {
             case THREADS:
                 logger.info("&8-&7-&f- | " + "Загрузка потоков&7...");
                 break;
+            case MODULES:
+                logger.info("&8-&7-&f- | " + "Загрузка модулей&7...");
+                break;
             case OTHER:
                 logger.info("&8-&7-&f- | " + ColorUtil.toColor(other) +"&7...");
                 break;
@@ -74,6 +77,7 @@ public class MessagesUtil {
         COMMANDS,
         EVENTS,
         THREADS,
+        MODULES,
         OTHER
     }
 }
