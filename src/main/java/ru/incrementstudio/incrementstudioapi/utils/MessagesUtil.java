@@ -48,7 +48,7 @@ public class MessagesUtil {
                 logger.info("");
                 break;
             case DEPENDENCIES:
-                logger.info("&8-&7-&f- | " + "Загрузка способностей&7...");
+                logger.info("&8-&7-&f- | " + "Загрузка зависимостей&7...");
                 break;
             case COMMANDS:
                 logger.info("&8-&7-&f- | " + "Загрузка команд&7...");
@@ -71,6 +71,15 @@ public class MessagesUtil {
             case FILES:
                 logger.info("&8-&7-&f- | " + "Загрузка файлов&7...");
                 break;
+            case MESSAGES:
+                logger.info("&8-&7-&f- | " + "Загрузка сообщений&7...");
+                break;
+            case LANGUAGES:
+                logger.info("&8-&7-&f- | " + "Загрузка языков&7...");
+                break;
+            case DATABASES:
+                logger.info("&8-&7-&f- | " + "Загрузка баз данных&7...");
+                break;
             case OTHER:
                 logger.info("&8-&7-&f- | " + ColorUtil.toColor(other) +"&7...");
                 break;
@@ -90,6 +99,9 @@ public class MessagesUtil {
         SYSTEM,
         SETTINGS,
         FILES,
+        MESSAGES,
+        LANGUAGES,
+        DATABASES,
         OTHER
     }
 }
