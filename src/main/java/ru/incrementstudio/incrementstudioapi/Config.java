@@ -46,7 +46,6 @@ public class Config {
         if (!file.exists()) {
             file.getParentFile().mkdirs();
             plugin.saveResource(file.getName(), false);
-            //Тест
         }
     }
 }
