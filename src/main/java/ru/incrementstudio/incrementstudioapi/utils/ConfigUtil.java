@@ -2,6 +2,7 @@ package ru.incrementstudio.incrementstudioapi.utils;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import ru.incrementstudio.incrementstudioapi.Config;
 
 public class ConfigUtil {
     public static String combinePath(String... elements) {
@@ -22,35 +23,35 @@ public class ConfigUtil {
         return path;
     }
 
-    public static void rename(FileConfiguration config, String path, String newName) {
-        if (config.isConfigurationSection(path)) {
-            ConfigurationSection parent = config.getConfigurationSection(path).getParent();
+    public static void rename(Config config, String path, String newName) {
+        if (config.get().isConfigurationSection(path)) {
+            ConfigurationSection parent = config.get().getConfigurationSection(path).getParent();
             copy(config, path, ConfigUtil.combinePath(parent.getCurrentPath(), newName));
             delete(config, path);
         }
     }
 
-    public static void copy(FileConfiguration config, String from, String to) {
-        if (config.isConfigurationSection(from)) {
-            for (String key : config.getConfigurationSection(from).getKeys(false)) {
+    public static void copy(Config config, String from, String to) {
+        if (config.get().isConfigurationSection(from)) {
+            for (String key : config.get().getConfigurationSection(from).getKeys(false)) {
                 copy(config, ConfigUtil.combinePath(from, key), ConfigUtil.combinePath(to, key));
             }
         } else {
-            config.set(to, config.get(from));
+            config.get().set(to, config.get().get(from));
         }
     }
 
-    public static void copy(FileConfiguration fromConfig, FileConfiguration toConfig, String from, String to) {
-        if (fromConfig.isConfigurationSection(from)) {
-            for (String key : fromConfig.getConfigurationSection(from).getKeys(false)) {
+    public static void copy(Config fromConfig, Config toConfig, String from, String to) {
+        if (fromConfig.get().isConfigurationSection(from)) {
+            for (String key : fromConfig.get().getConfigurationSection(from).getKeys(false)) {
                 copy(fromConfig, toConfig, ConfigUtil.combinePath(from, key), ConfigUtil.combinePath(to, key));
             }
         } else {
-            toConfig.set(to, fromConfig.get(from));
+            toConfig.get().set(to, fromConfig.get().get(from));
         }
     }
 
-    public static void delete(FileConfiguration config, String path) {
-        config.set(path, null);
+    public static void delete(Config config, String path) {
+        config.get().set(path, null);
     }
 }
