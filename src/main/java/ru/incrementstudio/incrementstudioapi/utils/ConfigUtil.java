@@ -24,11 +24,9 @@ public class ConfigUtil {
     }
 
     public static void rename(Config config, String path, String newName) {
-        if (config.get().isConfigurationSection(path)) {
-            ConfigurationSection parent = config.get().getConfigurationSection(path).getParent();
-            copy(config, path, ConfigUtil.combinePath(parent.getCurrentPath(), newName));
-            delete(config, path);
-        }
+        ConfigurationSection parent = config.get().getConfigurationSection(path).getParent();
+        copy(config, path, ConfigUtil.combinePath(parent.getCurrentPath(), newName));
+        delete(config, path);
     }
 
     public static void copy(Config config, String from, String to) {
