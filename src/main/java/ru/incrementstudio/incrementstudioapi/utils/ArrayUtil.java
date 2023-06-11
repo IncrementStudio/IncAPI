@@ -11,4 +11,9 @@ public class ArrayUtil {
         }
         return result.toArray(new String[0]);
     }
+    public static List<String> toStringList(String[] array) {
+        List<String> result = new ArrayList<>();
+        for (String element : array) result.add(element);
+        return result;
+    }
 }
