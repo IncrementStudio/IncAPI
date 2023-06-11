@@ -62,6 +62,9 @@ public class MessagesUtil {
             case MODULES:
                 logger.info("&8-&7-&f- | " + "Загрузка модулей&7...");
                 break;
+            case FILES:
+                logger.info("&8-&7-&f- | " + "Загрузка файлов&7...");
+                break;
             case OTHER:
                 logger.info("&8-&7-&f- | " + ColorUtil.toColor(other) +"&7...");
                 break;
@@ -78,6 +81,7 @@ public class MessagesUtil {
         EVENTS,
         THREADS,
         MODULES,
+        FILES,
         OTHER
     }
 }
