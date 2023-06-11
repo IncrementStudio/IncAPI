@@ -1,6 +1,5 @@
 package ru.incrementstudio.incrementstudioapi.modules.vault;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -12,10 +11,14 @@ import java.util.List;
 
 public class Permission {
     private net.milkbowl.vault.permission.Permission permission;
+    public final boolean isVaultSetup;
     public Permission(Plugin plugin) {
         if (!setupPermissions(plugin)) {
             new Logger(plugin).error("Не удалось зарегистрировать систему разрешений Vault");
+            isVaultSetup = false;
+            return;
         }
+        isVaultSetup = true;
     }
 
     private boolean setupPermissions(Plugin plugin) {

@@ -62,6 +62,12 @@ public class MessagesUtil {
             case MODULES:
                 logger.info("&8-&7-&f- | " + "Загрузка модулей&7...");
                 break;
+            case SYSTEM:
+                logger.info("&8-&7-&f- | " + "Загрузка системы&7...");
+                break;
+            case SETTINGS:
+                logger.info("&8-&7-&f- | " + "Загрузка настроек&7...");
+                break;
             case FILES:
                 logger.info("&8-&7-&f- | " + "Загрузка файлов&7...");
                 break;
@@ -81,6 +87,8 @@ public class MessagesUtil {
         EVENTS,
         THREADS,
         MODULES,
+        SYSTEM,
+        SETTINGS,
         FILES,
         OTHER
     }

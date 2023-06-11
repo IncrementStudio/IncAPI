@@ -8,10 +8,14 @@ import ru.incrementstudio.incrementstudioapi.Logger;
 
 public class Economy {
     private net.milkbowl.vault.economy.Economy economy;
+    public final boolean isVaultSetup;
     public Economy(Plugin plugin) {
         if (!setupEconomy(plugin)) {
             new Logger(plugin).error("Не удалось зарегистрировать денежную систему Vault");
+            isVaultSetup = false;
+            return;
         }
+        isVaultSetup = true;
     }
 
     private boolean setupEconomy(Plugin plugin) {
