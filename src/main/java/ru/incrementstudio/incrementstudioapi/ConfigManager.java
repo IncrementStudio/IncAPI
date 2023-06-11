@@ -25,7 +25,7 @@ public class ConfigManager {
 
     public Config getConfig(String name) {
         if (configs.containsKey(name)) return configs.get(name);
-        plugin.getLogger().severe("Конфиг \'" + name + ".yml\' не найден");
+        plugin.getLogger().severe("Конфиг '" + name + ".yml' не найден");
         return null;
     }
 
