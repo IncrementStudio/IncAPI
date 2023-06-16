@@ -38,6 +38,7 @@ public class ConfigUtil {
 
     public static void copy(FileConfiguration fromConfig, FileConfiguration toConfig, String from, String to) {
         if (fromConfig.isConfigurationSection(from)) {
+            toConfig.createSection(to);
             for (String key : fromConfig.getConfigurationSection(from).getKeys(false)) {
                 copy(fromConfig, toConfig, ConfigUtil.combinePath(from, key), ConfigUtil.combinePath(to, key));
             }
