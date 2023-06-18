@@ -6,8 +6,8 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import org.bukkit.Location;
 import org.bukkit.World;
-import ru.incrementstudio.incrementstudioapi.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,17 @@ public class RegionUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static Location getCenter(ProtectedRegion region, World world, boolean setHighestBlock) {
+        double locationX = (region.getMinimumPoint().getX() + region.getMaximumPoint().getX()) / 2.0;
+        double locationY = (region.getMinimumPoint().getY() + region.getMaximumPoint().getY()) / 2.0;
+        double locationZ = (region.getMinimumPoint().getZ() + region.getMaximumPoint().getZ()) / 2.0;
+        if (setHighestBlock) {
+            locationY = world.getHighestBlockYAt((int) locationX, (int) locationZ);
+            return new Location(world, locationX, locationY, locationZ);
+        }
+        return new Location(world, locationX, locationY, locationZ);
     }
     public static List<ProtectedRegion> getRegionsInWorld(World world) {
         List<ProtectedRegion> readyList = new ArrayList<>();
