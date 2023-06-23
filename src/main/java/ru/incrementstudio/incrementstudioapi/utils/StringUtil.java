@@ -1,6 +1,7 @@
 package ru.incrementstudio.incrementstudioapi.utils;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class StringUtil {
     public static String repeat(String pattern, int count) {
@@ -14,7 +15,7 @@ public class StringUtil {
     public static int getIntFromString(String value) {
         if (value.contains(" : ")) {
             String[] values = value.split(" : ");
-            return Integer.parseInt((String) RandomUtil.getRandomFromList(Arrays.stream(values).toList()));
+            return Integer.parseInt((String) RandomUtil.getRandomFromList(Arrays.stream(values).collect(Collectors.toList())));
         } else if (value.contains(" ! ")) {
             String[] values = value.split(" ! ");
             if (values.length != 2) return 0;
@@ -27,7 +28,7 @@ public class StringUtil {
     public static double getDoubleFromString(String value) {
         if (value.contains(" : ")) {
             String[] values = value.split(" : ");
-            return Double.parseDouble((String) RandomUtil.getRandomFromList(Arrays.stream(values).toList()));
+            return Double.parseDouble((String) RandomUtil.getRandomFromList(Arrays.stream(values).collect(Collectors.toList())));
         } else if (value.contains(" ! ")) {
             String[] values = value.split(" ! ");
             if (values.length != 2) return 0;
