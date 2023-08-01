@@ -22,19 +22,12 @@ public class StringUtil {
     }
 
     public static boolean getBooleanFromString(String value) {
-        if (value.contains(" %: ")) {
-            String[] values = value.split(" %: ");
-            return Boolean.parseBoolean((String) RandomUtil.getRandomFromList(Arrays.stream(values).collect(Collectors.toList())));
-        } else {
-            return Boolean.parseBoolean(value);
-        }
+        return Boolean.parseBoolean(getStringFromString(value));
     }
 
     public static int getIntFromString(String value) {
-        if (value.contains(" %: ")) {
-            String[] values = value.split(" %: ");
-            return Integer.parseInt((String) RandomUtil.getRandomFromList(Arrays.stream(values).collect(Collectors.toList())));
-        } else if (value.contains(" %! ")) {
+        value = getStringFromString(value);
+        if (value.contains(" %! ")) {
             String[] values = value.split(" %! ");
             if (values.length != 2) return 0;
             return RandomUtil.getInt(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
@@ -44,10 +37,8 @@ public class StringUtil {
     }
 
     public static double getDoubleFromString(String value) {
-        if (value.contains(" %: ")) {
-            String[] values = value.split(" %: ");
-            return Double.parseDouble((String) RandomUtil.getRandomFromList(Arrays.stream(values).collect(Collectors.toList())));
-        } else if (value.contains(" %! ")) {
+        value = getStringFromString(value);
+        if (value.contains(" %! ")) {
             String[] values = value.split(" %! ");
             if (values.length != 2) return 0;
             return RandomUtil.getDouble(Double.parseDouble(values[0]), Double.parseDouble(values[1]));
