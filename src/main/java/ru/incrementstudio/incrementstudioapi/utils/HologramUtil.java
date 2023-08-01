@@ -4,8 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 
-public class HologrammUtil {
-    public static ArmorStand spawnHologramm(Location location, String text) {
+public class HologramUtil {
+    public static ArmorStand spawnHologram(Location location, String text) {
         ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
         armorStand.setCollidable(false);
         armorStand.setInvulnerable(true);
