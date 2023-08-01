@@ -15,14 +15,12 @@ public class MenuUtil {
                 1,
                 " ",
                 new ArrayList<>(),
-                List.of(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS),
+                new ArrayList<>(),
+                new ArrayList<>(),
                 new HashMap<>() {{
                     put("id", "INC_ELEMENT");
                     put("tag", "BORDER");
-                }},
-                true,
-                false,
-                false
+                }}
         );
     }
 
@@ -30,19 +28,15 @@ public class MenuUtil {
         return ItemUtil.createItemStack(
                 Material.REPEATING_COMMAND_BLOCK,
                 1,
-                "&5IncrementStudio++",
+                ColorUtil.toColor("&5IncrementStudio++"),
                 new ArrayList<>(),
-                List.of(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS),
+                new ArrayList<>(),
+                List.of(ItemFlag.HIDE_ENCHANTS),
                 new HashMap<>() {{
                     put("tag", "INC_ELEMENT");
                     put("action", "LINK");
                     put("link", "https://vk.com/incrementstudio");
-                }},
-                true,
-                true,
-                true
+                }}
         );
     }
-
-
 }
