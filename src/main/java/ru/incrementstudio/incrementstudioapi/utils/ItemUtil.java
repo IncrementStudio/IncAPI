@@ -81,4 +81,23 @@ public class ItemUtil {
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
+
+    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, HashMap<String, String> persistentData, int customModelData) {
+        ItemStack itemStack = new ItemStack(material, amount);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(name);
+        itemMeta.setLore(lore);
+        for (EnchantmentTemplate enchant : enchants) {
+            itemMeta.addEnchant(enchant.getEnchantment(), enchant.getLevel(), true);
+        }
+        for (int i = 0; i < flags.size(); i++) {
+            itemMeta.addItemFlags(flags.get(i));
+        }
+        for (String key : persistentData.keySet()) {
+            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, persistentData.get(key));
+        }
+        itemMeta.setCustomModelData(customModelData);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
 }
