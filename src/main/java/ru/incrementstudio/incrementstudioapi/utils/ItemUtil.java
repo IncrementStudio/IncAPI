@@ -10,6 +10,7 @@ import ru.incrementstudio.incrementstudioapi.configs.templates.EnchantmentTempla
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemUtil {
     public static ItemStack createItemStack(Material material) {
@@ -76,7 +77,7 @@ public class ItemUtil {
             itemMeta.addItemFlags(flags.get(i));
         }
         for (String key : persistentData.keySet()) {
-            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, persistentData.get(key));
+            itemMeta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString(key)), PersistentDataType.STRING, persistentData.get(key));
         }
         itemStack.setItemMeta(itemMeta);
         return itemStack;
@@ -94,7 +95,7 @@ public class ItemUtil {
             itemMeta.addItemFlags(flags.get(i));
         }
         for (String key : persistentData.keySet()) {
-            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, persistentData.get(key));
+            itemMeta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString(key)), PersistentDataType.STRING, persistentData.get(key));
         }
         itemMeta.setCustomModelData(customModelData);
         itemStack.setItemMeta(itemMeta);
