@@ -94,7 +94,9 @@ public class ItemUtil {
         for (int i = 0; i < flags.size(); i++) {
             itemMeta.addItemFlags(flags.get(i));
         }
+        System.out.println(persistentData);
         for (String key : persistentData.keySet()) {
+            System.out.println(key);
             itemMeta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString(key)), PersistentDataType.STRING, persistentData.get(key));
         }
         itemMeta.setCustomModelData(customModelData);
