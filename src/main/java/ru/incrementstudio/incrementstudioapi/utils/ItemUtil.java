@@ -77,7 +77,7 @@ public class ItemUtil {
             itemMeta.addItemFlags(flags.get(i));
         }
         for (String key : persistentData.keySet()) {
-            itemMeta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString(key)), PersistentDataType.STRING, persistentData.get(key));
+            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, persistentData.get(key));
         }
         itemStack.setItemMeta(itemMeta);
         return itemStack;
@@ -94,10 +94,8 @@ public class ItemUtil {
         for (int i = 0; i < flags.size(); i++) {
             itemMeta.addItemFlags(flags.get(i));
         }
-        System.out.println(persistentData);
         for (String key : persistentData.keySet()) {
-            System.out.println(key);
-            itemMeta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString(key)), PersistentDataType.STRING, persistentData.get(key));
+            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, persistentData.get(key));
         }
         itemMeta.setCustomModelData(customModelData);
         itemStack.setItemMeta(itemMeta);
