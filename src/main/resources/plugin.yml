@@ -1,0 +1,7 @@
+name: IncAPI
+version: '${project.version}'
+main: ru.incrementstudio.incapi.Plugin
+api-version: 1.13
+authors: [IncrementStudio++]
+description: API для всех плагинов | vk.com/incrementstudio
+website: vk.com/incrementstudio

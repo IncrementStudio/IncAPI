@@ -8,6 +8,6 @@
 
 <dependency>
     <groupId>com.github.IncrementStudio</groupId>
-    <artifactId>IncrementStudioAPI</artifactId>
+    <artifactId>IncAPI</artifactId>
     <version>vВЕРСИЯ</version>
 </dependency>
