@@ -30,6 +30,7 @@ public final class Main extends JavaPlugin {
         configManager = new ConfigManager(this, List.of("config"));
         configManager.updateAll();
         config = Main.getConfigManager().getConfig("config");
+        Messages.load();
         MessagesUtil.sendPluginMessage(this, logger, MessagesUtil.MessageType.ENABLE, null);
     }
 

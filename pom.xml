@@ -7,14 +7,16 @@
     <groupId>ru.incrementstudio</groupId>
     <artifactId>IncAPI</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
 
     <name>IncAPI</name>
 
+    <description>API для всех плагинов | vk.com/incrementstudio</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <bukkitVersion>1.13.1-R0.1-SNAPSHOT</bukkitVersion>
     </properties>
+    <url>vk.com/incrementstudio</url>
 
     <organization>
         <name>IncrementStudio++</name>
@@ -22,7 +24,6 @@
     </organization>
 
     <build>
-        <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
