@@ -1,5 +1,5 @@
 name: IncAPI
-version: '${project.version}'
+version: ${project.version}
 main: ru.incrementstudio.incapi.Main
 api-version: 1.13
 authors: [IncrementStudio++]
