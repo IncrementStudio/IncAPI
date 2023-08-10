@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import ru.incrementstudio.incapi.utils.MenuUtil;
 
-public class Menu {
+public abstract class Menu {
     private final Inventory inventory;
     private final int page;
     private final Player player;
@@ -16,6 +16,7 @@ public class Menu {
         this.player = player;
         inventory = Bukkit.createInventory(null, size, title);
         fillBorders();
+        fill();
     }
 
     public Menu(String title, int size, int page, Player player, String data) {
@@ -24,6 +25,7 @@ public class Menu {
         this.data = data;
         inventory = Bukkit.createInventory(null, size, title);
         fillBorders();
+        fill();
     }
 
     protected void fillBorders() {
@@ -35,6 +37,8 @@ public class Menu {
             }
         }
     }
+
+    public abstract void fill();
     public Inventory getInventory() {
         return inventory;
     }
