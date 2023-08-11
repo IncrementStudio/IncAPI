@@ -31,27 +31,27 @@ public class TimeUtil {
                 }
                 if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("y") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("г")) {
                     if ((secondd * 31536000L) > Integer.MAX_VALUE) {
-                        return 0;
+                        return -1;
                     }
                     second += secondd * 31536000L;
                 } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("w") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("н")) {
                     if ((secondd * 604800L) > Integer.MAX_VALUE) {
-                        return 0;
+                        return -1;
                     }
                     second += secondd * 604800L;
                 } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("d") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("д")) {
                     if ((secondd * 86400L) > Integer.MAX_VALUE) {
-                        return 0;
+                        return -1;
                     }
                     second += secondd * 86400L;
                 } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("h") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("ч")) {
                     if ((secondd * 3600L) > Integer.MAX_VALUE) {
-                        return 0;
+                        return -1;
                     }
                     second += secondd * 3600L;
                 } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("m") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("м")) {
                     if ((secondd * 60L) > Integer.MAX_VALUE) {
-                        return 0;
+                        return -1;
                     }
                     second += secondd * 60L;
                 } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("s") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("с")) {
