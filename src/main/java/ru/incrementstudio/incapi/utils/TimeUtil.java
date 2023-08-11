@@ -4,12 +4,10 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
     public static long secondsFromString(String string) {
-        System.out.println("\' " + string + "\'");
         long second = 0;
         char lastChar = string.charAt(string.length() - 1);
         char firstChar = string.charAt(0);
         if (Character.isDigit(lastChar) || Character.isLetter(firstChar)) {
-            System.out.println(1);
             return 0;
         }
         int i = 0;
@@ -19,7 +17,7 @@ public class TimeUtil {
             if (Character.isDigit(charr)) {
                 long secondd = 0;
                 int sizee = i;
-                while (Character.isDigit(sizee)) {
+                while (Character.isDigit(string.charAt(sizee))) {
                     if (secondd > Integer.MAX_VALUE) {
                         return -1;
                     }
@@ -28,7 +26,6 @@ public class TimeUtil {
                 }
                 if (sizee < size - 1) {
                     if (Character.isLetter(string.charAt(sizee + 1))) {
-                        System.out.println(2);
                         return 0;
                     }
                 }
@@ -60,7 +57,6 @@ public class TimeUtil {
                 } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("s") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("с")) {
                     second += secondd;
                 } else {
-                    System.out.println(3);
                     return 0;
                 }
             }
