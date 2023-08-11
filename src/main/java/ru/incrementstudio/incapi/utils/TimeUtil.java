@@ -8,6 +8,7 @@ public class TimeUtil {
         char lastChar = string.charAt(string.length() - 1);
         char firstChar = string.charAt(0);
         if (Character.isDigit(lastChar) || Character.isLetter(firstChar)) {
+            System.out.println(1);
             return 0;
         }
         int i = 0;
@@ -26,6 +27,7 @@ public class TimeUtil {
                 }
                 if (sizee < size - 1) {
                     if (Character.isLetter(string.charAt(sizee + 1))) {
+                        System.out.println(2);
                         return 0;
                     }
                 }
@@ -57,6 +59,7 @@ public class TimeUtil {
                 } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("s") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("с")) {
                     second += secondd;
                 } else {
+                    System.out.println(3);
                     return 0;
                 }
             }
