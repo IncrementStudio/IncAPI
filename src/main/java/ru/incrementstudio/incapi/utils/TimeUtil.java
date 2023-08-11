@@ -63,12 +63,12 @@ public class TimeUtil {
         }
         return second;
     }
-    public static String toTime(int input) {
+    public static String toTime(long input) {
         String timeString = null;
-        int days = (int) TimeUnit.SECONDS.toDays(input);
-        int hours = (int) (TimeUnit.SECONDS.toHours(input) - TimeUnit.DAYS.toHours(days));
-        int minutes = (int) (TimeUnit.SECONDS.toMinutes(input) - TimeUnit.HOURS.toMinutes(hours) - TimeUnit.DAYS.toMinutes(days));
-        int seconds = (int) (TimeUnit.SECONDS.toSeconds(input) - TimeUnit.MINUTES.toSeconds(minutes)            - TimeUnit.HOURS.toSeconds(hours) - TimeUnit.DAYS.toSeconds(days));
+        long days = TimeUnit.SECONDS.toDays(input);
+        long hours = (TimeUnit.SECONDS.toHours(input) - TimeUnit.DAYS.toHours(days));
+        long minutes = (TimeUnit.SECONDS.toMinutes(input) - TimeUnit.HOURS.toMinutes(hours) - TimeUnit.DAYS.toMinutes(days));
+        long seconds = (TimeUnit.SECONDS.toSeconds(input) - TimeUnit.MINUTES.toSeconds(minutes)            - TimeUnit.HOURS.toSeconds(hours) - TimeUnit.DAYS.toSeconds(days));
 
         if (days == 0){
             if (hours != 0 && minutes != 0 && seconds == 0) {
@@ -110,7 +110,7 @@ public class TimeUtil {
         return timeString;
     }
 
-    private static String setCorrectForm(int time, TimeType type){
+    private static String setCorrectForm(long time, TimeType type){
         String string = "";
         if ((time > 4 && time < 21) || (time > 24 && time < 31) || (time > 34 && time < 41) ||
                 (time > 44 && time < 51) || time > 54 || time == 0) {
