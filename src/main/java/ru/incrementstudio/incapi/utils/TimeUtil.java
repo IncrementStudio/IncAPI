@@ -3,6 +3,66 @@ package ru.incrementstudio.incapi.utils;
 import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
+    public static long secondsFromString(String string) {
+        long second = 0;
+        char lastChar = string.charAt(string.length() - 1);
+        char firstChar = string.charAt(0);
+        if (Character.isDigit(lastChar) || Character.isLetter(firstChar)) {
+            return 0;
+        }
+        int i = 0;
+        int size = string.length();
+        for (; i < size; i++) {
+            char charr = string.charAt(i);
+            if (Character.isDigit(charr)) {
+                long secondd = 0;
+                int sizee = i;
+                while (Character.isDigit(sizee)) {
+                    if (secondd > Integer.MAX_VALUE) {
+                        return -1;
+                    }
+                    secondd = 10 * secondd + Character.getNumericValue(string.charAt(sizee));
+                    sizee++;
+                }
+                if (sizee < size - 1) {
+                    if (Character.isLetter(string.charAt(sizee + 1))) {
+                        return 0;
+                    }
+                }
+                if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("y") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("г")) {
+                    if ((secondd * 31536000L) > Integer.MAX_VALUE) {
+                        return 0;
+                    }
+                    second += secondd * 31536000L;
+                } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("w") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("н")) {
+                    if ((secondd * 604800L) > Integer.MAX_VALUE) {
+                        return 0;
+                    }
+                    second += secondd * 604800L;
+                } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("d") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("д")) {
+                    if ((secondd * 86400L) > Integer.MAX_VALUE) {
+                        return 0;
+                    }
+                    second += secondd * 86400L;
+                } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("h") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("ч")) {
+                    if ((secondd * 3600L) > Integer.MAX_VALUE) {
+                        return 0;
+                    }
+                    second += secondd * 3600L;
+                } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("m") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("м")) {
+                    if ((secondd * 60L) > Integer.MAX_VALUE) {
+                        return 0;
+                    }
+                    second += secondd * 60L;
+                } else if (String.valueOf(string.charAt(sizee)).equalsIgnoreCase("s") || String.valueOf(string.charAt(sizee)).equalsIgnoreCase("с")) {
+                    second += secondd;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        return second;
+    }
     public static String toTime(int input) {
         String timeString = null;
         int days = (int) TimeUnit.SECONDS.toDays(input);
