@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
     public static long secondsFromString(String string) {
+        System.out.println("\' " + string + "\'");
         long second = 0;
         char lastChar = string.charAt(string.length() - 1);
         char firstChar = string.charAt(0);
