@@ -6,10 +6,10 @@ import org.bukkit.inventory.Inventory;
 import ru.incrementstudio.incapi.utils.MenuUtil;
 
 public abstract class Menu {
-    private final Inventory inventory;
-    private final int page;
-    private final Player player;
-    private String data;
+    protected final Inventory inventory;
+    protected final int page;
+    protected final Player player;
+    protected String data;
 
     public Menu(String title, int size, int page, Player player) {
         this.page = page;
@@ -42,15 +42,12 @@ public abstract class Menu {
     public Inventory getInventory() {
         return inventory;
     }
-
     public int getPage() {
         return page;
     }
-
     public Player getPlayer() {
         return player;
     }
-
     public String getData() {
         return data;
     }
