@@ -12,6 +12,7 @@ import ru.incrementstudio.incapi.configs.templates.EnchantmentTemplate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemUtil {
     public static ItemStack createItemStack(Material material) {
@@ -66,7 +67,7 @@ public class ItemUtil {
         return itemStack;
     }
 
-    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, HashMap<NamespacedKey, String> persistentData) {
+    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, Map<NamespacedKey, String> persistentData) {
         ItemStack itemStack = new ItemStack(material, amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(name);
@@ -84,7 +85,7 @@ public class ItemUtil {
         return itemStack;
     }
 
-    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, HashMap<NamespacedKey, String> persistentData, int customModelData) {
+    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, Map<NamespacedKey, String> persistentData, int customModelData) {
         ItemStack itemStack = new ItemStack(material, amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(name);
@@ -103,7 +104,7 @@ public class ItemUtil {
         return itemStack;
     }
 
-    public static ItemStack createItemStack(Material material, String name, int amount, List<String> lore, List<ItemFlag> flags, HashMap<NamespacedKey, String> persistentData, boolean coloredName, boolean coloredLore, boolean enchanted) {
+    public static ItemStack createItemStack(Material material, String name, int amount, List<String> lore, List<ItemFlag> flags, Map<NamespacedKey, String> persistentData, boolean coloredName, boolean coloredLore, boolean enchanted) {
         ItemStack item = new ItemStack(material, amount);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setDisplayName(coloredName ? ColorUtil.toColor(name) : name);
