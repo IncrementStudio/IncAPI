@@ -66,7 +66,7 @@ public class ItemUtil {
         return itemStack;
     }
 
-    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, HashMap<String, String> persistentData) {
+    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, HashMap<NamespacedKey, String> persistentData) {
         ItemStack itemStack = new ItemStack(material, amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(name);
@@ -77,14 +77,14 @@ public class ItemUtil {
         for (int i = 0; i < flags.size(); i++) {
             itemMeta.addItemFlags(flags.get(i));
         }
-        for (String key : persistentData.keySet()) {
-            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, persistentData.get(key));
+        for (NamespacedKey key : persistentData.keySet()) {
+            itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING, persistentData.get(key));
         }
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
-    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, HashMap<String, String> persistentData, int customModelData) {
+    public static ItemStack createItemStack(Material material, int amount, String name, List<String> lore, List<EnchantmentTemplate> enchants, List<ItemFlag> flags, HashMap<NamespacedKey, String> persistentData, int customModelData) {
         ItemStack itemStack = new ItemStack(material, amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(name);
@@ -95,15 +95,15 @@ public class ItemUtil {
         for (int i = 0; i < flags.size(); i++) {
             itemMeta.addItemFlags(flags.get(i));
         }
-        for (String key : persistentData.keySet()) {
-            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, persistentData.get(key));
+        for (NamespacedKey key : persistentData.keySet()) {
+            itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING, persistentData.get(key));
         }
         itemMeta.setCustomModelData(customModelData);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
-    public static ItemStack createItemStack(Material material, String name, int amount, List<String> lore, List<ItemFlag> flags, HashMap<String, String> persistentData, boolean coloredName, boolean coloredLore, boolean enchanted) {
+    public static ItemStack createItemStack(Material material, String name, int amount, List<String> lore, List<ItemFlag> flags, HashMap<NamespacedKey, String> persistentData, boolean coloredName, boolean coloredLore, boolean enchanted) {
         ItemStack item = new ItemStack(material, amount);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setDisplayName(coloredName ? ColorUtil.toColor(name) : name);
@@ -112,8 +112,8 @@ public class ItemUtil {
         for (int i = 0; i < flags.size(); i++) {
             itemMeta.addItemFlags(flags.get(i));
         }
-        for (String key : persistentData.keySet()) {
-            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, persistentData.get(key));
+        for (NamespacedKey key : persistentData.keySet()) {
+            itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING, persistentData.get(key));
         }
         if (enchanted) {
             itemMeta.addEnchant(Enchantment.LUCK, 1, true);
