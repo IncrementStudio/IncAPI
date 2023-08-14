@@ -1,6 +1,7 @@
 package ru.incrementstudio.incapi.utils;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,8 +19,8 @@ public class MenuUtil {
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new HashMap<>() {{
-                    put("id", "INC_ELEMENT");
-                    put("tag", "BORDER");
+                    put(NamespacedKey.fromString("id"), "INC_ELEMENT");
+                    put(NamespacedKey.fromString("tag"), "BORDER");
                 }}
         );
     }
@@ -33,9 +34,9 @@ public class MenuUtil {
                 new ArrayList<>(),
                 List.of(ItemFlag.HIDE_ENCHANTS),
                 new HashMap<>() {{
-                    put("tag", "INC_ELEMENT");
-                    put("action", "LINK");
-                    put("link", "https://vk.com/incrementstudio");
+                    put(NamespacedKey.fromString("tag"), "INC_ELEMENT");
+                    put(NamespacedKey.fromString("action"), "LINK");
+                    put(NamespacedKey.fromString("link"), "https://vk.com/incrementstudio");
                 }}
         );
     }
