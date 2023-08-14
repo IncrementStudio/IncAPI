@@ -1,15 +1,16 @@
 package ru.incrementstudio.incapi.utils;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class StringUtil {
     public static String repeat(String pattern, int count) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < count; i++) {
-            result += pattern;
+            result.append(pattern);
         }
-        return result;
+        return result.toString();
     }
 
     public static String getStringFromString(String value) {
@@ -45,5 +46,17 @@ public class StringUtil {
         } else {
             return Double.parseDouble(value);
         }
+    }
+
+    public static String getRandomString(int length) {
+        String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+        return sb.toString();
     }
 }
