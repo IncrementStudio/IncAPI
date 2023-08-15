@@ -2,6 +2,7 @@ package ru.incrementstudio.incapi.utils;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -126,7 +127,7 @@ public class ItemUtil {
     }
 
 
-    public static ItemStack getHead(Player player) {
+    public static ItemStack getHead(OfflinePlayer player) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta skull = (SkullMeta) item.getItemMeta();
         skull.setOwningPlayer(player);
