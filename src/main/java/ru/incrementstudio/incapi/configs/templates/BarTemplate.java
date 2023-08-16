@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import ru.incrementstudio.incapi.utils.StringUtil;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BarTemplate {
     private BarColor color;
@@ -22,6 +23,6 @@ public class BarTemplate {
         style = BarStyle.valueOf(StringUtil.getStringFromString(configSection.getString("style")));
         flags = configSection.getStringList("flags").stream()
                 .map(x -> BarFlag.valueOf(StringUtil.getStringFromString(x)))
-                .toList();
+                .collect(Collectors.toList());
     }
 }
