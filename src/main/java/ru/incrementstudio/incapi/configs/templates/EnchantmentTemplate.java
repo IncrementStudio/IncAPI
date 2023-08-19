@@ -5,14 +5,14 @@ import org.bukkit.enchantments.Enchantment;
 import ru.incrementstudio.incapi.utils.StringUtil;
 
 public class EnchantmentTemplate {
-    private Enchantment enchantment;
-    private int level;
+    private Enchantment enchantment = Enchantment.MENDING;
+    private int level = 1;
 
     public Enchantment getEnchantment() { return enchantment; }
     public int getLevel() { return level; }
 
     public EnchantmentTemplate(ConfigurationSection configSection) {
-        enchantment = Enchantment.getByName(StringUtil.getStringFromString(configSection.getString("enchantment")));
-        level = StringUtil.getIntFromString(configSection.getString("level"));
+        if (configSection.contains("enchantment")) enchantment = Enchantment.getByName(StringUtil.getStringFromString(configSection.getString("enchantment")));
+        if (configSection.contains("level")) level = StringUtil.getIntFromString(configSection.getString("level"));
     }
 }

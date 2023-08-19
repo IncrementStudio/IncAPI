@@ -1,6 +1,5 @@
 package ru.incrementstudio.incapi;
 
-import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.incrementstudio.incapi.database.Materials;
@@ -44,6 +43,4 @@ public final class Main extends JavaPlugin {
         Main.getConfigManager().saveAll();
         MessagesUtil.sendPluginMessage(this, logger, MessagesUtil.MessageType.DISABLE, null);
     }
-
-
 }
