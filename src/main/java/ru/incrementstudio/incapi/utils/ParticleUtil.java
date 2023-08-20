@@ -9,6 +9,7 @@ public class ParticleUtil {
         for (int i = 0; i < count; i++) {
             do {
                 particleLocation = new Location(center.getWorld(), RandomUtil.getDouble(-range, range), RandomUtil.getDouble(-range, range), RandomUtil.getDouble(-range, range));
+                particleLocation.add(center);
             } while (particleLocation.distance(center) > range);
             center.getWorld().spawnParticle(particle, particleLocation, 1);
         }
@@ -19,6 +20,7 @@ public class ParticleUtil {
         for (int i = 0; i < count; i++) {
             do {
                 particleLocation = new Location(center.getWorld(), RandomUtil.getDouble(-range, range), RandomUtil.getDouble(-range, range), RandomUtil.getDouble(-range, range));
+                particleLocation.add(center);
             } while (particleLocation.distance(center) > range);
             center.getWorld().spawnParticle(particle, particleLocation, 0,
                     color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, dustOptions);
