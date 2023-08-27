@@ -43,14 +43,14 @@ public class EntityHider implements Listener {
 
     private ProtocolManager manager;
 
-    private Listener bukkitListener;
-    private PacketAdapter protocolListener;
+    private final Listener bukkitListener;
+    private final PacketAdapter protocolListener;
 
     protected final Policy policy;
-    public EntityHider(Plugin plugin, Policy policy) {
+    public EntityHider(Plugin plugin, Policy policy, ProtocolManager manager) {
         Preconditions.checkNotNull(plugin, "Плагин не может равняться null");
         this.policy = policy;
-        this.manager = ProtocolLibrary.getProtocolManager();
+        this.manager = manager;
         plugin.getServer().getPluginManager().registerEvents(
                 bukkitListener = constructBukkit(), plugin);
         manager.addPacketListener(protocolListener = constructProtocol(plugin));
@@ -121,7 +121,6 @@ public class EntityHider implements Listener {
             @Override
             public void onPacketSending(PacketEvent event) {
                 int entityID = event.getPacket().getIntegers().read(0);
-
                 if (!isVisible(event.getPlayer(), entityID)) {
                     event.setCancelled(true);
                 }
