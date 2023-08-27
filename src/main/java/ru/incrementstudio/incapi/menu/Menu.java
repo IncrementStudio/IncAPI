@@ -15,8 +15,6 @@ public abstract class Menu {
         this.page = page;
         this.player = player;
         inventory = Bukkit.createInventory(null, size, title);
-        fillBorders();
-        fill();
     }
 
     public Menu(String title, int size, int page, Player player, String data) {
@@ -24,11 +22,9 @@ public abstract class Menu {
         this.player = player;
         this.data = data;
         inventory = Bukkit.createInventory(null, size, title);
-        fillBorders();
-        fill();
     }
 
-    protected void fillBorders() {
+    protected void fillDefaultBorders() {
         for (int i = 0; i < inventory.getSize(); i++) {
             if ((i < 9 || i > inventory.getSize() - 10) || (((i + 1) % 9) == 0 || (i % 9) == 0)) {
                 if (inventory.getItem(i) == null) {
