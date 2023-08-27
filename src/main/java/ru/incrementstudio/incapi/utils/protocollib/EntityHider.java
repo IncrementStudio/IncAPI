@@ -24,6 +24,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import ru.incrementstudio.incapi.Main;
 
 public class EntityHider implements Listener {
     protected Table<Integer, Integer, Boolean> observerEntityMap = HashBasedTable.create();
@@ -41,8 +42,6 @@ public class EntityHider implements Listener {
         BLACKLIST,
     }
 
-    private static ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-
     private final Listener bukkitListener;
     private final PacketAdapter protocolListener;
 
@@ -52,7 +51,7 @@ public class EntityHider implements Listener {
         this.policy = policy;
         plugin.getServer().getPluginManager().registerEvents(
                 bukkitListener = constructBukkit(), plugin);
-        manager.addPacketListener(protocolListener = constructProtocol(plugin));
+        Main.getInstance().getProtocolManager().addPacketListener(protocolListener = constructProtocol(plugin));
     }
 
     protected boolean setVisibility(Player observer, int entityID, boolean visible) {
@@ -139,8 +138,8 @@ public class EntityHider implements Listener {
         validate(observer, entity);
         boolean hiddenBefore = !setVisibility(observer, entity.getEntityId(), true);
 
-        if (manager != null && hiddenBefore) {
-            manager.updateEntity(entity, Arrays.asList(observer));
+        if (Main.getInstance().getProtocolManager() != null && hiddenBefore) {
+            Main.getInstance().getProtocolManager().updateEntity(entity, Arrays.asList(observer));
         }
         return hiddenBefore;
     }
@@ -153,7 +152,7 @@ public class EntityHider implements Listener {
             PacketContainer destroyEntity = new PacketContainer(ENTITY_DESTROY);
             destroyEntity.getIntegerArrays().write(0, new int[] { entity.getEntityId() });
 
-            manager.sendServerPacket(observer, destroyEntity);
+            Main.getInstance().getProtocolManager().sendServerPacket(observer, destroyEntity);
         }
         return visibleBefore;
     }
@@ -174,10 +173,9 @@ public class EntityHider implements Listener {
     }
 
     public void close() {
-        if (manager != null) {
+        if (Main.getInstance().getProtocolManager() != null) {
             HandlerList.unregisterAll(bukkitListener);
-            manager.removePacketListener(protocolListener);
-            manager = null;
+            Main.getInstance().getProtocolManager().removePacketListener(protocolListener);
         }
     }
 }

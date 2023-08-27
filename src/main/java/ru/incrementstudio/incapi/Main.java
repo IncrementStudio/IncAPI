@@ -1,5 +1,7 @@
 package ru.incrementstudio.incapi;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,8 +12,8 @@ import java.util.List;
 
 public final class Main extends JavaPlugin {
 
-    private static Plugin instance;
-    public static Plugin getInstance() {
+    private static Main instance;
+    public static Main getInstance() {
         return instance;
     }
     private static Logger logger;
@@ -20,6 +22,11 @@ public final class Main extends JavaPlugin {
     public static ConfigManager getConfigManager() { return configManager; }
 
     public static Config config;
+
+    ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+    public ProtocolManager getProtocolManager() {
+        return manager;
+    }
 
     @Override
     public void onEnable() {
