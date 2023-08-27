@@ -41,16 +41,15 @@ public class EntityHider implements Listener {
         BLACKLIST,
     }
 
-    private ProtocolManager manager;
+    private static ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 
     private final Listener bukkitListener;
     private final PacketAdapter protocolListener;
 
     protected final Policy policy;
-    public EntityHider(Plugin plugin, Policy policy, ProtocolManager manager) {
+    public EntityHider(Plugin plugin, Policy policy) {
         Preconditions.checkNotNull(plugin, "Плагин не может равняться null");
         this.policy = policy;
-        this.manager = manager;
         plugin.getServer().getPluginManager().registerEvents(
                 bukkitListener = constructBukkit(), plugin);
         manager.addPacketListener(protocolListener = constructProtocol(plugin));
