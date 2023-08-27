@@ -45,13 +45,15 @@ public class EntityHider implements Listener {
     private final Listener bukkitListener;
     private final PacketAdapter protocolListener;
 
+    protected final ProtocolManager manager;
     protected final Policy policy;
     public EntityHider(Plugin plugin, Policy policy) {
         Preconditions.checkNotNull(plugin, "Плагин не может равняться null");
         this.policy = policy;
+        manager = ProtocolLibrary.getProtocolManager();
         plugin.getServer().getPluginManager().registerEvents(
                 bukkitListener = constructBukkit(), plugin);
-        Main.getInstance().getProtocolManager().addPacketListener(protocolListener = constructProtocol(plugin));
+        manager.addPacketListener(protocolListener = constructProtocol(plugin));
     }
 
     protected boolean setVisibility(Player observer, int entityID, boolean visible) {
@@ -138,8 +140,8 @@ public class EntityHider implements Listener {
         validate(observer, entity);
         boolean hiddenBefore = !setVisibility(observer, entity.getEntityId(), true);
 
-        if (Main.getInstance().getProtocolManager() != null && hiddenBefore) {
-            Main.getInstance().getProtocolManager().updateEntity(entity, Arrays.asList(observer));
+        if (manager != null && hiddenBefore) {
+            manager.updateEntity(entity, Arrays.asList(observer));
         }
         return hiddenBefore;
     }
@@ -152,7 +154,7 @@ public class EntityHider implements Listener {
             PacketContainer destroyEntity = new PacketContainer(ENTITY_DESTROY);
             destroyEntity.getIntegerArrays().write(0, new int[] { entity.getEntityId() });
 
-            Main.getInstance().getProtocolManager().sendServerPacket(observer, destroyEntity);
+            manager.sendServerPacket(observer, destroyEntity);
         }
         return visibleBefore;
     }
@@ -173,9 +175,9 @@ public class EntityHider implements Listener {
     }
 
     public void close() {
-        if (Main.getInstance().getProtocolManager() != null) {
+        if (manager != null) {
             HandlerList.unregisterAll(bukkitListener);
-            Main.getInstance().getProtocolManager().removePacketListener(protocolListener);
+            manager.removePacketListener(protocolListener);
         }
     }
 }

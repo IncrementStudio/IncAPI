@@ -1,9 +1,6 @@
 package ru.incrementstudio.incapi;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.incrementstudio.incapi.database.Materials;
 import ru.incrementstudio.incapi.utils.MessagesUtil;
@@ -22,11 +19,6 @@ public final class Main extends JavaPlugin {
     public static ConfigManager getConfigManager() { return configManager; }
 
     public static Config config;
-
-    ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-    public ProtocolManager getProtocolManager() {
-        return manager;
-    }
 
     @Override
     public void onEnable() {
