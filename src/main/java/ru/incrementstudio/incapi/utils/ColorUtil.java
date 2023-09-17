@@ -5,14 +5,85 @@ import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ColorUtil {
     public static String toColor(String string) {
-        String coloredString = null;
-        if (string != null) {
-            coloredString = ChatColor.translateAlternateColorCodes('&', string);
+        StringBuilder result = new StringBuilder();
+        result.append(string);
+
+        Pattern pattern1 = Pattern.compile("\\{&#[a-fA-F0-9]{6}}");
+        Pattern pattern2 = Pattern.compile("\\{#[a-fA-F0-9]{6}}");
+        Pattern pattern3 = Pattern.compile("<#[a-fA-F0-9]{6}>");
+        Pattern pattern4 = Pattern.compile("&#[a-fA-F0-9]{6}");
+        Pattern pattern5 = Pattern.compile("#[a-fA-F0-9]{6}");
+
+        Matcher matcher1 = pattern1.matcher(result);
+        while (matcher1.find()) {
+            String hexCode = result.substring(matcher1.start(), matcher1.end());
+            String replaceSharp = hexCode.replace("{", "").replace("&", "").replace('#', 'x').replace("}", "");
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder();
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
+            result.replace(matcher1.start(), matcher1.end(), builder.toString());
+            matcher1 = pattern1.matcher(result);
         }
-        return coloredString;
+
+        Matcher matcher2 = pattern2.matcher(result);
+        while (matcher2.find()) {
+            String hexCode = result.substring(matcher2.start(), matcher2.end());
+            String replaceSharp = hexCode.replace("{", "").replace('#', 'x').replace("}", "");
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder();
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
+            result.replace(matcher2.start(), matcher2.end(), builder.toString());
+            matcher2 = pattern2.matcher(result);
+        }
+
+        Matcher matcher3 = pattern3.matcher(result);
+        while (matcher3.find()) {
+            String hexCode = result.substring(matcher3.start(), matcher3.end());
+            String replaceSharp = hexCode.replace("<", "").replace('#', 'x').replace(">", "");
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder();
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
+            result.replace(matcher3.start(), matcher3.end(), builder.toString());
+            matcher3 = pattern3.matcher(result);
+        }
+
+        Matcher matcher4 = pattern4.matcher(result);
+        while (matcher4.find()) {
+            String hexCode = result.substring(matcher4.start(), matcher4.end());
+            String replaceSharp = hexCode.replace("&", "").replace('#', 'x');
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder();
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
+            result.replace(matcher4.start(), matcher4.end(), builder.toString());
+            matcher4 = pattern4.matcher(result);
+        }
+
+        Matcher matcher5 = pattern5.matcher(result);
+        while (matcher5.find()) {
+            String hexCode = result.substring(matcher5.start(), matcher5.end());
+            String replaceSharp = hexCode.replace('#', 'x');
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder();
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
+            result.replace(matcher5.start(), matcher5.end(), builder.toString());
+            matcher5 = pattern5.matcher(result);
+        }
+        return ChatColor.translateAlternateColorCodes('&', result.toString());
     }
 
     public static List<String> toColor(List<String> list) {
