@@ -10,6 +10,7 @@ import ru.incrementstudio.incapi.database.Materials;
 import ru.incrementstudio.incapi.utils.ItemBuilder;
 import ru.incrementstudio.incapi.utils.MessagesUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -38,18 +39,6 @@ public final class Main extends JavaPlugin {
         configManager = new ConfigManager(this, List.of("config"));
         configManager.updateAll();
         config = Main.getConfigManager().getConfig("config");
-        ItemStack itemStack = new ItemBuilder()
-                .setMaterial(Material.GOLDEN_APPLE)
-                .setAmount(1)
-                .setName("ХУЙХУЙХУЙ")
-                .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                .addValue("id", "incregions")
-                .addEnchantment(Enchantment.CHANNELING, 1)
-                .setLore(Arrays.asList("Хуй", "Нахуй"), new HashMap<>(){{
-                    put("%player%", "Имя игрока");
-                }}).build();
-
-
         Messages.load();
         Materials.load();
         Bukkit.getPluginManager().registerEvents(new Input(), this);

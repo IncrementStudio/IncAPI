@@ -6,7 +6,7 @@ import org.bukkit.inventory.Inventory;
 import ru.incrementstudio.incapi.utils.MenuUtil;
 
 public abstract class Menu {
-    protected Inventory inventory;
+    protected final Inventory inventory;
     protected int page;
     protected Player player;
     protected String data;

@@ -220,8 +220,21 @@ public class ItemBuilder {
 
     public ItemBuilder addPersistentData(String key, PersistentDataType persistentDataType, Object value) {
         itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), persistentDataType, value);
+
         return this;
     }
+
+    public ItemBuilder addPersistentData(PersistentData persistentData) {
+        itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(persistentData.getKey()), persistentData.getPersistentDataType(), persistentData.getValue());
+        return this;
+    }
+
+    public ItemBuilder addPersistentData(List<PersistentData> persistentData) {
+        for (PersistentData persistentData1: persistentData)
+            itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(persistentData1.getKey()), persistentData1.getPersistentDataType(), persistentData1.getValue());
+        return this;
+    }
+
 
     public ItemBuilder removePersistentData(String key) {
         itemMeta.getPersistentDataContainer().remove(NamespacedKey.fromString(key));
@@ -243,6 +256,29 @@ public class ItemBuilder {
     public ItemStack build() {
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
+
+    public static class PersistentData {
+        private final String key;
+        private final PersistentDataType persistentDataType;
+        private final Object value;
+        public PersistentData(String key, PersistentDataType persistentDataType, Object value) {
+            this.key = key;
+            this.persistentDataType = persistentDataType;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public PersistentDataType getPersistentDataType() {
+            return persistentDataType;
+        }
+
+        public Object getValue() {
+            return value;
+        }
     }
 
 
