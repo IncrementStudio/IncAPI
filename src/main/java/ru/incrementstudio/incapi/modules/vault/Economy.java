@@ -7,7 +7,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import ru.incrementstudio.incapi.Logger;
 
 public class Economy {
-    private Plugin plugin;
+    private final Plugin plugin;
     private net.milkbowl.vault.economy.Economy economy;
     public final boolean isVaultSetup;
     public Economy(Plugin plugin) {
