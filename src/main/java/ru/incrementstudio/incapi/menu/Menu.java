@@ -2,49 +2,144 @@ package ru.incrementstudio.incapi.menu;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import ru.incrementstudio.incapi.utils.MenuUtil;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class Menu {
-    protected final Inventory inventory;
-    protected int page;
-    protected Player player;
-    protected String data;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    public Menu(String title, int size, int page, Player player) {
-        this.page = page;
-        this.player = player;
-        inventory = Bukkit.createInventory(null, size, title);
+public class Menu implements Listener {
+    public BukkitTask DYNAMIC_UPDATE(Player viewer, Plugin plugin, long time) {
+        return new BukkitRunnable() {
+            @Override
+            public void run() {
+                reopen(viewer);
+            }
+        }.runTaskTimer(plugin, time, time);
+    }
+    public BukkitTask ANIMATED_TITLE(Player viewer, List<String> titles, Plugin plugin, long time) {
+        return new BukkitRunnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                if (i == titles.size())
+                    i = 0;
+                builder.setTitle(titles.get(i));
+                apply();
+                reopen(viewer);
+                i++;
+            }
+        }.runTaskTimer(plugin, time, time);
     }
 
-    public Menu(String title, int size, int page, Player player, String data) {
-        this.page = page;
-        this.player = player;
-        this.data = data;
-        inventory = Bukkit.createInventory(null, size, title);
+    private final MenuBuilder builder;
+    private Inventory inventory = Bukkit.createInventory(null, 54, "Menu");
+    private Map<Player, BukkitTask> viewers = new HashMap<>();
+    private boolean reopen = false;
+
+    public Menu(@NotNull MenuBuilder builder) {
+        this.builder = builder;
     }
 
-    protected void fillDefaultBorders() {
-        for (int i = 0; i < inventory.getSize(); i++) {
-            if ((i < 9 || i > inventory.getSize() - 10) || (((i + 1) % 9) == 0 || (i % 9) == 0)) {
-                if (inventory.getItem(i) == null) {
-                    inventory.setItem(i, MenuUtil.getBorderItem());
+    public Menu(int size) {
+        this.builder = new MenuBuilder(size);
+    }
+
+    public MenuBuilder builder() { return builder; }
+    public Map<Player, BukkitTask> getViewers() { return viewers; }
+
+    public Menu apply() {
+        inventory = builder.build();
+        return this;
+    }
+
+    public Menu show(Player player, BukkitTask action) {
+        if (viewers.containsKey(player)) {
+            BukkitTask task = viewers.get(player);
+            if (task != null)
+                task.cancel();
+            viewers.remove(player);
+            System.out.println("1");
+        }
+        viewers.put(player, action);
+        player.openInventory(inventory);
+        return this;
+    }
+
+    public Menu reopen(Player player) {
+        reopen = true;
+        player.openInventory(inventory);
+        return this;
+    }
+
+    public Menu register(Plugin plugin) {
+        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
+        return this;
+    }
+
+    @EventHandler
+    public void onClick(InventoryClickEvent event) {
+        if (event.getWhoClicked().getOpenInventory().getTopInventory() == inventory) {
+            event.setCancelled(true);
+            ItemStack item = event.getCurrentItem();
+            if (item != null) {
+                int slot = event.getSlot();
+                Item itemData = builder.getMap()[slot];
+                if (itemData instanceof Button) {
+                    Button button = (Button) itemData;
+                    button.onClick(event);
                 }
             }
         }
     }
 
-    public abstract void fill();
-    public Inventory getInventory() {
-        return inventory;
+    @EventHandler
+    public void onDrag(InventoryDragEvent event) {
+        if (event.getWhoClicked().getOpenInventory().getTopInventory() == inventory) {
+            event.setCancelled(true);
+        }
     }
-    public int getPage() {
-        return page;
+
+    @EventHandler
+    public void onDrop(PlayerDropItemEvent event) {
+        if (event.getPlayer().getOpenInventory().getTopInventory() == inventory) {
+            event.setCancelled(true);
+        }
     }
-    public Player getPlayer() {
-        return player;
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent event) {
+        if (event.getInventory() == inventory) {
+            if (reopen) {
+                reopen = false;
+            } else {
+                BukkitTask task = viewers.get(event.getPlayer());
+                if (task != null)
+                    task.cancel();
+                viewers.remove(event.getPlayer());
+            }
+        }
     }
-    public String getData() {
-        return data;
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event) {
+        if (viewers.containsKey(event.getPlayer())) {
+            BukkitTask task = viewers.get(event.getPlayer());
+            if (task != null)
+                task.cancel();
+            viewers.remove(event.getPlayer());
+        }
     }
 }

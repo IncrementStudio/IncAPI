@@ -5,6 +5,7 @@ api-version: 1.13
 authors: [IncrementStudio++]
 description: API для всех плагинов | vk.com/incrementstudio
 website: vk.com/incrementstudio
+<<<<<<< Updated upstream
 depend:
   - ProtocolLib
 softdepend:
@@ -12,3 +13,8 @@ softdepend:
   - WorldGuard
   - Vault
   - PlayerPoints
+=======
+softdepend:
+  - Vault
+  - WorldGuard
+>>>>>>> Stashed changes
