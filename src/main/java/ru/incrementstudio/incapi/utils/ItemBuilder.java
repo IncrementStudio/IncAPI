@@ -16,7 +16,7 @@ public class ItemBuilder {
     private boolean isColored;
 
     public ItemBuilder() {
-        itemStack = new ItemStack(Material.AIR);
+        itemStack = new ItemStack(Material.STONE);
         itemMeta = itemStack.getItemMeta();
         isColored = true;
     }
