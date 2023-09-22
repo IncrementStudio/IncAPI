@@ -115,9 +115,9 @@ public class ItemBuilder {
         for (String line: lore) {
             for (Map.Entry<String, String> value: values.entrySet()) {
                 if (line.contains(value.getKey())) line = line.replace(value.getKey(), value.getValue());
-                if (isColored) resultLore.add(ColorUtil.toColor(line));
-                else resultLore.add(line);
             }
+            if (isColored) resultLore.add(ColorUtil.toColor(line));
+            else resultLore.add(line);
         }
         itemMeta.setLore(resultLore);
         return this;
@@ -138,9 +138,9 @@ public class ItemBuilder {
         for (String line: lore) {
             for (Map.Entry<String, String> value: values.entrySet()) {
                 if (line.contains(value.getKey())) line = line.replace(value.getKey(), value.getValue());
-                if (isColored) resultLore.add(ColorUtil.toColor(line));
-                else resultLore.add(line);
             }
+            if (isColored) resultLore.add(ColorUtil.toColor(line));
+            else resultLore.add(line);
         }
         itemMeta.setLore(resultLore);
         return this;
