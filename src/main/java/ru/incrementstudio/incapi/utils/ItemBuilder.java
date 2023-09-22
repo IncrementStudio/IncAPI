@@ -16,7 +16,7 @@ public class ItemBuilder {
     private boolean isColored;
 
     public ItemBuilder() {
-        itemStack = new ItemStack(Material.AIR);
+        itemStack = new ItemStack(Material.STONE);
         itemMeta = itemStack.getItemMeta();
         isColored = true;
     }
@@ -115,9 +115,9 @@ public class ItemBuilder {
         for (String line: lore) {
             for (Map.Entry<String, String> value: values.entrySet()) {
                 if (line.contains(value.getKey())) line = line.replace(value.getKey(), value.getValue());
-                if (isColored) resultLore.add(ColorUtil.toColor(line));
-                else resultLore.add(line);
             }
+            if (isColored) resultLore.add(ColorUtil.toColor(line));
+            else resultLore.add(line);
         }
         itemMeta.setLore(resultLore);
         return this;
@@ -138,9 +138,9 @@ public class ItemBuilder {
         for (String line: lore) {
             for (Map.Entry<String, String> value: values.entrySet()) {
                 if (line.contains(value.getKey())) line = line.replace(value.getKey(), value.getValue());
-                if (isColored) resultLore.add(ColorUtil.toColor(line));
-                else resultLore.add(line);
             }
+            if (isColored) resultLore.add(ColorUtil.toColor(line));
+            else resultLore.add(line);
         }
         itemMeta.setLore(resultLore);
         return this;
