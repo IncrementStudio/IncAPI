@@ -16,9 +16,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class Menu implements Listener {
     public BukkitTask DYNAMIC_UPDATE(Player viewer, Plugin plugin, long time) {
@@ -46,7 +45,7 @@ public class Menu implements Listener {
 
     private final MenuBuilder builder;
     private Inventory inventory = Bukkit.createInventory(null, 54, "Menu");
-    private Map<Player, BukkitTask> viewers = new HashMap<>();
+    private Map<Player, List<Object>> viewers = new HashMap<>();
     private boolean reopen = false;
 
     public Menu(@NotNull MenuBuilder builder) {
@@ -58,25 +57,87 @@ public class Menu implements Listener {
     }
 
     public MenuBuilder builder() { return builder; }
-    public Map<Player, BukkitTask> getViewers() { return viewers; }
+    public Map<Player, List<Object>> getViewers() { return viewers; }
+    public Consumer<List<Object>> endFunction;
 
     public Menu apply() {
         inventory = builder.build();
         return this;
     }
 
-    public Menu show(Player player, BukkitTask action) {
+    public Menu show(Player player) {
         if (viewers.containsKey(player)) {
-            BukkitTask task = viewers.get(player);
-            if (task != null)
-                task.cancel();
+            if (viewers.get(player) instanceof BukkitTask) {
+                BukkitTask task = (BukkitTask) viewers.get(player);
+                if (task != null)
+                    task.cancel();
+            }
+            if (endFunction != null) {
+                endFunction.accept(viewers.get(player));
+                endFunction = null;
+            }
             viewers.remove(player);
-            System.out.println("1");
         }
-        viewers.put(player, action);
+        viewers.put(player, new ArrayList<>());
         player.openInventory(inventory);
         return this;
     }
+    public Menu show(Player player, Object object) {
+        if (viewers.containsKey(player)) {
+            if (viewers.get(player) instanceof BukkitTask) {
+                BukkitTask task = (BukkitTask) viewers.get(player);
+                if (task != null)
+                    task.cancel();
+            }
+            if (endFunction != null) {
+                endFunction.accept(viewers.get(player));
+                endFunction = null;
+            }
+            viewers.remove(player);
+        }
+        viewers.put(player, new ArrayList<>(){{add(object);}});
+        player.openInventory(inventory);
+        return this;
+    }
+
+    public Menu show(Player player, List<Object> object) {
+        if (viewers.containsKey(player)) {
+            if (viewers.get(player) instanceof BukkitTask) {
+                BukkitTask task = (BukkitTask) viewers.get(player);
+                if (task != null)
+                    task.cancel();
+            }
+            if (endFunction != null) {
+                endFunction.accept(viewers.get(player));
+                endFunction = null;
+            }
+            viewers.remove(player);
+        }
+        viewers.put(player, object);
+        player.openInventory(inventory);
+        return this;
+    }
+
+    public Menu show(Player player, List<Object> object, Consumer<List<Object>> start, Consumer<List<Object>> end) {
+        if (viewers.containsKey(player)) {
+            if (viewers.get(player) instanceof BukkitTask) {
+                BukkitTask task = (BukkitTask) viewers.get(player);
+                if (task != null)
+                    task.cancel();
+            }
+            if (endFunction != null) {
+                endFunction.accept(viewers.get(player));
+                endFunction = null;
+            }
+            viewers.remove(player);
+        }
+        start.accept(object);
+        endFunction = end;
+        viewers.put(player, object);
+        player.openInventory(inventory);
+        return this;
+    }
+
 
     public Menu reopen(Player player) {
         reopen = true;
@@ -125,9 +186,15 @@ public class Menu implements Listener {
             if (reopen) {
                 reopen = false;
             } else {
-                BukkitTask task = viewers.get(event.getPlayer());
-                if (task != null)
-                    task.cancel();
+                if (viewers.get(event.getPlayer()) instanceof BukkitTask) {
+                    BukkitTask task = (BukkitTask) viewers.get(event.getPlayer());
+                    if (task != null)
+                        task.cancel();
+                }
+                if (endFunction != null) {
+                    endFunction.accept(viewers.get(event.getPlayer()));
+                    endFunction = null;
+                }
                 viewers.remove(event.getPlayer());
             }
         }
@@ -136,9 +203,15 @@ public class Menu implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
         if (viewers.containsKey(event.getPlayer())) {
-            BukkitTask task = viewers.get(event.getPlayer());
-            if (task != null)
-                task.cancel();
+            if (viewers.get(event.getPlayer()) instanceof BukkitTask) {
+                BukkitTask task = (BukkitTask) viewers.get(event.getPlayer());
+                if (task != null)
+                    task.cancel();
+            }
+            if (endFunction != null) {
+                endFunction.accept(viewers.get(event.getPlayer()));
+                endFunction = null;
+            }
             viewers.remove(event.getPlayer());
         }
     }
