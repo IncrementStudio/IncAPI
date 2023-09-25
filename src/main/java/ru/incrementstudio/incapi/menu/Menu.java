@@ -47,6 +47,8 @@ public class Menu implements Listener {
     private Inventory inventory = Bukkit.createInventory(null, 54, "Menu");
     private Map<Player, List<Object>> viewers = new HashMap<>();
     private boolean reopen = false;
+    private Map<String, String> persistentData = new HashMap<>();
+    public Map<String, String> getPersistentData() { return persistentData; }
 
     public Menu(@NotNull MenuBuilder builder) {
         this.builder = builder;
