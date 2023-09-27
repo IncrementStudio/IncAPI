@@ -68,4 +68,7 @@ public class Menu {
         return pages.get(index);
     }
 
+    public List<Page> getPages() {
+        return pages;
+    }
 }

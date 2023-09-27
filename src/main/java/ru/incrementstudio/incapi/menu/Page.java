@@ -252,4 +252,26 @@ public class Page implements Listener {
     public Map<Player, Data> getViewers() {
         return viewers;
     }
+
+    public Display getDisplay() {
+        return display;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public List<Data> getData() {
+        return data;
+    }
+
+    public Consumer<Data> getEndFunction() {
+        return endFunction;
+    }
+
+
 }
