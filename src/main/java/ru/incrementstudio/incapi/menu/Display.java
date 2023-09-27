@@ -8,13 +8,13 @@ public class Display {
     }
 
     public Display setSlot(Item item, int slot) {
-        items[slot] = item;
+        if (slot < items.length) items[slot] = item;
         return this;
     }
 
     public Display setSlot(Item item, int... slots) {
         for (int slot: slots) {
-            items[slot] = item;
+            if (slot < items.length) items[slot] = item;
         }
         return this;
     }

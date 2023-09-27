@@ -49,7 +49,9 @@ public class Page implements Listener {
 
     public Page setSize(int size) {
         this.size = size;
+        Display oldDisplay = display;
         display = new Display(size);
+        setDisplay(oldDisplay);
         return this;
     }
 
@@ -59,17 +61,21 @@ public class Page implements Listener {
     }
 
     public Page setSlot(Item item, int slot) {
-        display.setSlot(item, slot);
+        if (slot < display.getItems().length) display.setSlot(item, slot);
         return this;
     }
 
     public Page setSlot(Item item, int... slots) {
-        display.setSlot(item, slots);
+        for (int slot: slots) {
+            if (slot < display.getItems().length) display.setSlot(item, slot);
+        }
         return this;
     }
 
     public Page setDisplay(Display display) {
-        this.display = display;
+        for (int i = 0; i < Math.min(this.display.getItems().length, display.getItems().length); i++) {
+            this.display.getItems()[i] = display.getItems()[i];
+        }
         return this;
     }
 
@@ -112,7 +118,6 @@ public class Page implements Listener {
             viewers.remove(player);
         }
         viewers.put(player, new Data());
-        // apply()
         player.openInventory(inventory);
     }
 
@@ -132,7 +137,6 @@ public class Page implements Listener {
             viewers.remove(player);
         }
         viewers.put(player, data);
-        // apply()
         player.openInventory(inventory);
     }
 
@@ -154,12 +158,10 @@ public class Page implements Listener {
         start.accept(data);
         endFunction = end;
         viewers.put(player, data);
-        // apply()
         player.openInventory(inventory);
     }
 
     public Page apply() {
-        // ColorUtil.toColor(title)
         if (title == null) title = "";
         if (size % 9 != 0) size = 54;
         inventory = Bukkit.createInventory(null, size, title);
