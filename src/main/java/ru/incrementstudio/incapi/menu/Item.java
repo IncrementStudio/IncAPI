@@ -3,10 +3,9 @@ package ru.incrementstudio.incapi.menu;
 import org.bukkit.inventory.ItemStack;
 
 public class Item {
-    private ItemStack item;
-    public ItemStack getItem() { return item; }
-
-    public Item(ItemStack item) {
-        this.item = item;
+    private final ItemStack itemStack;
+    public Item(ItemStack itemStack) {
+        this.itemStack = itemStack;
     }
+    public ItemStack getItemStack() { return itemStack; }
 }

@@ -13,12 +13,11 @@ import java.util.*;
 public class ItemBuilder {
     private ItemStack itemStack;
     private ItemMeta itemMeta;
-    private boolean isColored;
+    private boolean isColored = true;
 
     public ItemBuilder() {
         itemStack = new ItemStack(Material.STONE);
         itemMeta = itemStack.getItemMeta();
-        isColored = true;
     }
 
     public ItemBuilder(ItemStack itemStack) {
@@ -189,7 +188,7 @@ public class ItemBuilder {
 
     public ItemBuilder setGlowing(boolean isGlowing) {
         if (isGlowing) {
-            itemStack.addEnchantment(Enchantment.LUCK, 1);
+            itemStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
             itemStack.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         } else {
             itemStack.removeEnchantment(Enchantment.LUCK);
