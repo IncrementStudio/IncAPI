@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.incrementstudio.incapi.database.Materials;
+import ru.incrementstudio.incapi.menu.MenuListener;
+import ru.incrementstudio.incapi.menu.Page;
 import ru.incrementstudio.incapi.utils.ItemBuilder;
 import ru.incrementstudio.incapi.utils.MessagesUtil;
 
@@ -41,6 +43,7 @@ public final class Main extends JavaPlugin {
         config = Main.getConfigManager().getConfig("config");
         Messages.load();
         Materials.load();
+        Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
         Bukkit.getPluginManager().registerEvents(new Input(), this);
         MessagesUtil.sendPluginMessage(this, logger, MessagesUtil.MessageType.ENABLE, null);
     }

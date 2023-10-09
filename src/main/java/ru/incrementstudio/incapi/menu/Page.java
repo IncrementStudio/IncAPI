@@ -12,12 +12,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Page implements Listener {
@@ -163,7 +161,7 @@ public class Page implements Listener {
 
     public Page apply() {
         if (title == null) title = "";
-        if (size % 9 != 0) size = 54;
+        if (size % 9 != 0 || size < 9 || size > 54) size = 54;
         inventory = Bukkit.createInventory(null, size, title);
         for (int i = 0; i < size; i++) {
             Item item = display.getItems()[i];
@@ -176,79 +174,6 @@ public class Page implements Listener {
     public Page addData(Data data) {
         this.data.add(data);
         return this;
-    }
-
-    public Page registerListener(Plugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-        return this;
-    }
-
-    @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        if (event.getWhoClicked().getOpenInventory().getTopInventory() == inventory) {
-            event.setCancelled(true);
-            ItemStack item = event.getCurrentItem();
-            if (item != null) {
-                int slot = event.getSlot();
-                Item itemData = display.getItems()[slot];
-                if (itemData instanceof Button) {
-                    Button button = (Button) itemData;
-                    button.onClick(event);
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void onDrag(InventoryDragEvent event) {
-        if (event.getWhoClicked().getOpenInventory().getTopInventory() == inventory) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onDrop(PlayerDropItemEvent event) {
-        if (event.getPlayer().getOpenInventory().getTopInventory() == inventory) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onClose(InventoryCloseEvent event) {
-        Player player = (Player) event.getPlayer();
-        if (event.getInventory() == inventory) {
-            if (viewers.get(player).getData().containsKey("task")) {
-                if (viewers.get(player).getData().get("task") instanceof BukkitTask) {
-                    BukkitTask task = (BukkitTask) viewers.get(player).getData().get("task");
-                    if (task != null)
-                        task.cancel();
-                }
-            }
-            if (endFunction != null) {
-                endFunction.accept(viewers.get(player));
-                endFunction = null;
-            }
-            viewers.remove(player);
-        }
-    }
-
-    @EventHandler
-    public void onLeave(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        if (viewers.containsKey(player)) {
-            if (viewers.get(player).getData().containsKey("task")) {
-                if (viewers.get(player).getData().get("task") instanceof BukkitTask) {
-                    BukkitTask task = (BukkitTask) viewers.get(player).getData().get("task");
-                    if (task != null)
-                        task.cancel();
-                }
-            }
-            if (endFunction != null) {
-                endFunction.accept(viewers.get(player));
-                endFunction = null;
-            }
-            viewers.remove(player);
-        }
     }
 
     public Map<Player, Data> getViewers() {
@@ -275,5 +200,11 @@ public class Page implements Listener {
         return endFunction;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
 
+    public void setEndFunction(Consumer<Data> endFunction) {
+        this.endFunction = endFunction;
+    }
 }

@@ -1,6 +1,11 @@
 package ru.incrementstudio.incapi.menu;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -10,7 +15,9 @@ import java.util.function.Consumer;
 public class Menu {
     private final List<Page> pages = new ArrayList<>();
 
-    public Menu() {}
+    public Menu() {
+        MenuListener.menus.add(this);
+    }
 
     public void show(Player player) {
         pages.get(0).show(player);
@@ -32,12 +39,6 @@ public class Menu {
         pages.get(page).show(player, data, start, end);
     }
 
-    public Menu registerListeners(Plugin plugin) {
-        for (Page page: pages) {
-            page.registerListener(plugin);
-        }
-        return this;
-    }
 
     public Menu addPage(Page page) {
         pages.add(page);
