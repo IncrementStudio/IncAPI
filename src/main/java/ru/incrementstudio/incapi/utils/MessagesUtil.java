@@ -70,8 +70,11 @@ public class MessagesUtil {
             case DATABASES:
                 logger.info("&8-&7-&f- | " + "Загрузка баз данных&7...");
                 break;
+            case SPLIT:
+                logger.info("&8-&7-&f-----&7-&8-");
+                break;
             case OTHER:
-                logger.info("&8-&7-&f- | " + other +"&7...");
+                logger.info("&8-&7-&f- | " + other);
                 break;
         }
     }
@@ -92,6 +95,7 @@ public class MessagesUtil {
         MESSAGES,
         LANGUAGES,
         DATABASES,
+        SPLIT,
         OTHER
     }
 }
