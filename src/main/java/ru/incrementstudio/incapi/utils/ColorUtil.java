@@ -136,7 +136,7 @@ public class ColorUtil {
 
     public static String disableColor(String string) {
         for (int i = 0; i < string.length(); i++) {
-            if (string.toCharArray()[i] == '&') {
+            if (string.toCharArray()[i] == '&' || string.toCharArray()[i] == '§') {
                 string = string.replaceFirst(String.valueOf(string.toCharArray()[i]) + string.toCharArray()[i + 1], "");
                 i--;
             }

@@ -18,7 +18,9 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class Page implements Listener {
+public class Page {
+    private final Menu menu;
+
     private Inventory inventory;
     private Display display;
     private int size;
@@ -26,20 +28,23 @@ public class Page implements Listener {
 
     private final List<Data> data = new ArrayList<>();
     private final Map<Player, Data> viewers = new HashMap<>();
-    private Consumer<Data> endFunction;
+    private final Map<Player, Consumer<Data>> endFunctions = new HashMap<>();
 
 
-    public Page() {
+    public Page(Menu menu) {
+        this.menu = menu;
         this.size = 54;
         display = new Display(size);
     }
 
-    public Page(int size) {
+    public Page(Menu menu, int size) {
+        this.menu = menu;
         this.size = size;
         display = new Display(size);
     }
 
-    public Page(int size, String title) {
+    public Page(Menu menu, int size, String title) {
+        this.menu = menu;
         this.size = size;
         this.title = title;
         display = new Display(size);
@@ -109,14 +114,17 @@ public class Page implements Listener {
                         task.cancel();
                 }
             }
-            if (endFunction != null) {
-                endFunction.accept(viewers.get(player));
-                endFunction = null;
+            if (endFunctions.get(player) != null) {
+                endFunctions.get(player).accept(viewers.get(player));
+                endFunctions.remove(player);
             }
             viewers.remove(player);
         }
         viewers.put(player, new Data());
+        MenuListener.pages.add(this);
+        System.out.println("Вьюверы этой страницы: " + viewers);
         player.openInventory(inventory);
+        System.out.println("Открыли инвентарь игроку баккитовским способом");
     }
 
     public void show(Player player, Data data) {
@@ -128,13 +136,14 @@ public class Page implements Listener {
                         task.cancel();
                 }
             }
-            if (endFunction != null) {
-                endFunction.accept(viewers.get(player));
-                endFunction = null;
+            if (endFunctions.get(player) != null) {
+                endFunctions.get(player).accept(viewers.get(player));
+                endFunctions.remove(player);
             }
             viewers.remove(player);
         }
         viewers.put(player, data);
+        MenuListener.pages.add(this);
         player.openInventory(inventory);
     }
 
@@ -147,15 +156,16 @@ public class Page implements Listener {
                         task.cancel();
                 }
             }
-            if (endFunction != null) {
-                endFunction.accept(viewers.get(player));
-                endFunction = null;
+            if (endFunctions.get(player) != null) {
+                endFunctions.get(player).accept(viewers.get(player));
+                endFunctions.remove(player);
             }
             viewers.remove(player);
         }
         start.accept(data);
-        endFunction = end;
+        endFunctions.put(player, end);
         viewers.put(player, data);
+        MenuListener.pages.add(this);
         player.openInventory(inventory);
     }
 
@@ -196,15 +206,27 @@ public class Page implements Listener {
         return data;
     }
 
-    public Consumer<Data> getEndFunction() {
-        return endFunction;
-    }
-
     public Inventory getInventory() {
         return inventory;
     }
 
-    public void setEndFunction(Consumer<Data> endFunction) {
-        this.endFunction = endFunction;
+    public Map<Player, Consumer<Data>> getEndFunctions() {
+        return endFunctions;
+    }
+    @Override
+    public String toString() {
+        return "Page{" +
+                "inventory=" + inventory +
+                ", display=" + display +
+                ", size=" + size +
+                ", title='" + title + '\'' +
+                ", data=" + data +
+                ", viewers=" + viewers +
+                ", endFunctions=" + endFunctions +
+                '}';
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 }
