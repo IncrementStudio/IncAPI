@@ -48,6 +48,7 @@ public class MenuListener implements Listener {
                 }
                 break;
             }
+            i++;
         }
         System.out.println("Закончился слушатель onClick");
     }

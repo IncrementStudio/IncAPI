@@ -19,8 +19,6 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class Page {
-    private final Menu menu;
-
     private Inventory inventory;
     private Display display;
     private int size;
@@ -31,20 +29,17 @@ public class Page {
     private final Map<Player, Consumer<Data>> endFunctions = new HashMap<>();
 
 
-    public Page(Menu menu) {
-        this.menu = menu;
+    public Page() {
         this.size = 54;
         display = new Display(size);
     }
 
-    public Page(Menu menu, int size) {
-        this.menu = menu;
+    public Page(int size) {
         this.size = size;
         display = new Display(size);
     }
 
-    public Page(Menu menu, int size, String title) {
-        this.menu = menu;
+    public Page(int size, String title) {
         this.size = size;
         this.title = title;
         display = new Display(size);
@@ -226,7 +221,4 @@ public class Page {
                 '}';
     }
 
-    public Menu getMenu() {
-        return menu;
-    }
 }
