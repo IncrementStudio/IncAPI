@@ -31,7 +31,6 @@
                 <version>3.3.0</version>
                 <configuration>
                     <finalName>${project.artifactId}</finalName>
-                    <outputDirectory>C:\Users\User\Desktop\Server 1.16.5\plugins</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
