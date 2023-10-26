@@ -11,33 +11,19 @@ import java.util.List;
 
 public class MenuUtil {
     public static ItemStack getBorderItem() {
-        return ItemUtil.createItemStack(
-                Material.BLACK_STAINED_GLASS_PANE,
-                1,
-                " ",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new HashMap<>() {{
-                    put(NamespacedKey.fromString("id"), "INC_ELEMENT");
-                    put(NamespacedKey.fromString("tag"), "BORDER");
-                }}
-        );
+        return new ItemBuilder()
+                .setMaterial(Material.BLACK_STAINED_GLASS_PANE)
+                .setAmount(1)
+                .setName(" ")
+                .build();
     }
 
     public static ItemStack getIncrementStudioLink() {
-        return ItemUtil.createItemStack(
-                Material.REPEATING_COMMAND_BLOCK,
-                1,
-                ColorUtil.toColor("&5IncrementStudio++"),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                List.of(ItemFlag.HIDE_ENCHANTS),
-                new HashMap<>() {{
-                    put(NamespacedKey.fromString("tag"), "INC_ELEMENT");
-                    put(NamespacedKey.fromString("action"), "LINK");
-                    put(NamespacedKey.fromString("link"), "https://vk.com/incrementstudio");
-                }}
-        );
+        return new ItemBuilder()
+                .setMaterial(Material.REPEATING_COMMAND_BLOCK)
+                .setAmount(1)
+                .setName("&5IncrementStudio++")
+                .setGlowing(true)
+                .build();
     }
 }
