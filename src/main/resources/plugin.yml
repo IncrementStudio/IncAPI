@@ -10,3 +10,5 @@ depend:
 softdepend:
   - Vault
   - WorldGuard
+commands:
+  thrds:
