@@ -12,6 +12,7 @@ public class InternectionClient {
     private final Thread receiveThread;
     private final Thread sendThread;
     private final Deque<byte[]> sendQueue = new ArrayDeque<>();
+    private final Deque<OneTimeHandler> handlers = new ArrayDeque<>();
     private static final byte[] closeCode = new byte[] { -128, -128, -128, -128 };
     private Socket socket;
     private boolean closed = false;
@@ -19,6 +20,9 @@ public class InternectionClient {
         this.port = port;
         sendThread = new Thread(this::send, "Inc_ClientSend_" + port);
         receiveThread = new Thread(this::receive, "Inc_ClientRecv_" + port);
+    }
+    public void addOneTimeHandler(OneTimeHandler handler) {
+        handlers.add(handler);
     }
     private void receive() {
         DataInputStream in;
@@ -37,7 +41,12 @@ public class InternectionClient {
                         if (length > 0) {
                             byte[] data = new byte[length];
                             in.read(data, 0, length);
-                            dataHandler(data);
+                            if (handlers.isEmpty())
+                                dataHandler(data);
+                            else {
+                                OneTimeHandler handler = handlers.remove();
+                                handler.dataHandler(data);
+                            }
                         }
                     } catch (SocketException | EOFException e) {
                         send(closeCode);

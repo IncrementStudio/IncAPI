@@ -55,6 +55,7 @@ public abstract class InternectionServer extends Thread {
         private final Socket clientSocket;
         private boolean closed = false;
         private final Deque<byte[]> sendQueue = new ArrayDeque<>();
+        private final Deque<OneTimeHandler> handlers = new ArrayDeque<>();
         private static final byte[] closeCode = new byte[] { -128, -128, -128, -128 };
         public ConnectionHandler(Socket connection) {
             clientSocket = connection;
@@ -62,6 +63,9 @@ public abstract class InternectionServer extends Thread {
             sendThread = new Thread(this::send, "Inc_HandlerSend_" + connection.getPort());
             receiveThread.start();
             sendThread.start();
+        }
+        public void addOneTimeHandler(OneTimeHandler handler) {
+            handlers.add(handler);
         }
         private void receive() {
             DataInputStream in;
@@ -80,7 +84,12 @@ public abstract class InternectionServer extends Thread {
                             if (length > 0) {
                                 byte[] data = new byte[length];
                                 in.read(data, 0, length);
-                                dataHandler(data);
+                                if (handlers.isEmpty())
+                                    dataHandler(data);
+                                else {
+                                    OneTimeHandler handler = handlers.remove();
+                                    handler.dataHandler(data);
+                                }
                             }
                         } catch (EOFException e) {
                             send(closeCode);
@@ -109,6 +118,7 @@ public abstract class InternectionServer extends Thread {
                             byte[] data = sendQueue.remove();
                             try {
                                 if (!Arrays.equals(data, closeCode)) {
+
                                     out.writeInt(data.length);
                                     out.write(data);
                                     out.flush();
