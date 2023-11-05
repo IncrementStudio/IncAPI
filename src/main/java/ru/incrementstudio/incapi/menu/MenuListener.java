@@ -17,12 +17,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MenuListener implements Listener {
-    public static List<Page> pages = new ArrayList<>();
+    public final static List<Page> pages = new ArrayList<>();
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         List<Page> tempPages = new ArrayList<>(pages);
         System.out.println("Вызвался слушатель onClick. Действие: " + event.getAction() + ". Клик: " + event.getClick() + ". Курсор: " + event.getCursor() + ". Предмет: " + (event.getCurrentItem() != null ? event.getCurrentItem().getType() : "null"));
         int i = 1;
+        System.out.println("Лист перед циклом: " + ColorUtil.disableColor(pages.toString()));
+        System.out.println("Временный лист: " + ColorUtil.disableColor(tempPages.toString()));
         for (Page page: tempPages) {
             System.out.println(i + ". Просматриваем страницу (" + ColorUtil.disableColor(page.getTitle()) + "): " + ColorUtil.disableColor(page.toString()));
             System.out.println(event.getWhoClicked().getOpenInventory().getTopInventory());

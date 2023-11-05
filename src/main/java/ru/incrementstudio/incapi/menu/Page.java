@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.scheduler.BukkitTask;
+import ru.incrementstudio.incapi.utils.ColorUtil;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -117,6 +118,7 @@ public class Page {
         }
         viewers.put(player, new Data());
         MenuListener.pages.add(this);
+        System.out.println("После добавления в MenuListener.pages: " + ColorUtil.disableColor(MenuListener.pages.toString()));
         System.out.println("Вьюверы этой страницы: " + viewers);
         player.openInventory(inventory);
         System.out.println("Открыли инвентарь игроку баккитовским способом");
