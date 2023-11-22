@@ -117,7 +117,7 @@ public class Page {
             viewers.remove(player);
         }
         viewers.put(player, new Data());
-        MenuListener.pages.add(this);
+        if (!MenuListener.pages.contains(this)) MenuListener.pages.add(this);
         System.out.println("После добавления в MenuListener.pages: " + ColorUtil.disableColor(MenuListener.pages.toString()));
         System.out.println("Вьюверы этой страницы: " + viewers);
         player.openInventory(inventory);
@@ -140,7 +140,7 @@ public class Page {
             viewers.remove(player);
         }
         viewers.put(player, data);
-        MenuListener.pages.add(this);
+        if (!MenuListener.pages.contains(this)) MenuListener.pages.add(this);
         player.openInventory(inventory);
     }
 
@@ -162,7 +162,7 @@ public class Page {
         start.accept(data);
         endFunctions.put(player, end);
         viewers.put(player, data);
-        MenuListener.pages.add(this);
+        if (!MenuListener.pages.contains(this)) MenuListener.pages.add(this);
         player.openInventory(inventory);
     }
 

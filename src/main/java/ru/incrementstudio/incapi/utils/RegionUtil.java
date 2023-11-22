@@ -9,6 +9,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.util.BlockVector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,14 @@ public class RegionUtil {
     }
 
     public static ProtectedRegion getRegionOnLocation(Location location) {
-        List<ProtectedRegion> regions = new ArrayList<>(getRegionsInWorld(location.getWorld()));
+        List<ProtectedRegion> regions = new ArrayList<>(
+                WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(location.getWorld())).getApplicableRegions(
+                        BlockVector3.at(
+                                location.getX(),
+                                location.getY(),
+                                location.getZ()))
+                        .getRegions()
+        );
         for (ProtectedRegion protectedRegion: regions) {
             if (protectedRegion.isPhysicalArea()) return protectedRegion;
         }

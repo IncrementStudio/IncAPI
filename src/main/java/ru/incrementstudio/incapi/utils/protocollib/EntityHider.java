@@ -24,7 +24,6 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import ru.incrementstudio.incapi.Main;
 
 public class EntityHider implements Listener {
     protected Table<Integer, Integer, Boolean> observerEntityMap = HashBasedTable.create();
