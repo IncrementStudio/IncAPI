@@ -117,6 +117,7 @@ public class Page {
             viewers.remove(player);
         }
         viewers.put(player, new Data());
+        // test
         if (!MenuListener.pages.contains(this)) MenuListener.pages.add(this);
         System.out.println("После добавления в MenuListener.pages: " + ColorUtil.disableColor(MenuListener.pages.toString()));
         System.out.println("Вьюверы этой страницы: " + viewers);
