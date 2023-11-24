@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -16,6 +17,12 @@ public class Input implements Listener {
         if (players.containsKey(event.getPlayer())) {
             event.setCancelled(true);
             players.get(event.getPlayer()).accept(event.getMessage());
+            players.remove(event.getPlayer());
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        players.remove(event.getPlayer());
     }
 }
