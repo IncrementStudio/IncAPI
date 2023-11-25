@@ -21,7 +21,7 @@ public class ItemUtil {
     public static ItemStack getHead(OfflinePlayer player) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta skull = (SkullMeta) item.getItemMeta();
-        if (player.getPlayer() != null) {
+        if (player != null && player.getPlayer() != null) {
             skull.setPlayerProfile(player.getPlayer().getPlayerProfile());
         }
         item.setItemMeta(skull);
