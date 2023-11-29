@@ -17,7 +17,6 @@ public class Input implements Listener {
         if (players.containsKey(event.getPlayer())) {
             event.setCancelled(true);
             players.get(event.getPlayer()).accept(event.getMessage());
-            players.remove(event.getPlayer());
         }
     }
 
