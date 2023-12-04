@@ -80,16 +80,21 @@ public class MenuListener implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
+        System.out.println(ColorUtil.toColor("&eВызвался InventoryCloseEvent"));
         List<Page> tempPages = new ArrayList<>(pages);
         for (Page page : tempPages) {
             Player player = (Player) event.getPlayer();
             if (event.getInventory() == page.getInventory()) {
+                System.out.println("Инвентарь найден! " + event.getInventory());
                 boolean isReopen = false;
                 if (page.getViewers().get(player) != null && page.getViewers().get(player).getData() != null) {
+                    System.out.println("Дата игрока не null");
                     if (page.getViewers().get(player).getData().containsKey("reopen")) {
                         isReopen = (boolean) page.getViewers().get(player).getData().get("reopen");
+                        System.out.println("В дате есть reopen. Теперь reopen - " + isReopen);
                     }
                     if (!isReopen) {
+                        System.out.println("Если не переоткрытие отменяем все эти таски");
                         if (page.getViewers().get(player).getData().containsKey("task")) {
                             if (page.getViewers().get(player).getData().get("task") instanceof BukkitTask) {
                                 BukkitTask task = (BukkitTask) page.getViewers().get(player).getData().get("task");
@@ -103,14 +108,22 @@ public class MenuListener implements Listener {
                         }
                     }
                 }
+                System.out.println("По итогу reopen - " + isReopen);
                 if (!isReopen) {
+                    System.out.println("Это не переоткрытие");
                     page.getViewers().remove(player);
+                    System.out.println("Удалили вьювера. ");
                     if (page.getViewers().isEmpty()) {
                         System.out.println("На этой странице нет вьеверов! Удаляем страницу...");
                         MenuListener.pages.remove(page);
                     }
                 } else {
-                    page.getViewers().get(player).getData().remove("reopen");
+                    System.out.println("Это переоткрытие");
+                    if (page.getViewers().get(player) != null && page.getViewers().get(player).getData() != null) {
+                        page.getViewers().get(player).removeData("reopen");
+                        System.out.println("Удалили дату у вьювера");
+                        System.out.println("Дата теперь: " + page.getViewers().get(player).getData());
+                    }
                 }
                 break;
             }

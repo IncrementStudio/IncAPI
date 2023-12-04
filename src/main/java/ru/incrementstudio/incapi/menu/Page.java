@@ -103,12 +103,17 @@ public class Page {
     }
 
     public void show(Player player) {
+        System.out.println(ColorUtil.toColor("&aВызвался метод show(Player player)"));
         if (viewers.containsKey(player)) {
+            System.out.println("Игрок уже есть во вьюверах. Добавляем ему reopen - true");
             viewers.get(player).addData("reopen", true);
+            System.out.println("После этого Data игрока: " + viewers.get(player).getData());
         } else {
+            System.out.println("Игрока нет во вьюверах. Добавляем...");
             viewers.put(player, new Data());
         }
         if (!MenuListener.pages.contains(this)) {
+            System.out.println("Menu нет в листе. Добавляем...");
             MenuListener.pages.add(this);
         }
         System.out.println("После добавления в MenuListener.pages: " + ColorUtil.disableColor(MenuListener.pages.toString()));
