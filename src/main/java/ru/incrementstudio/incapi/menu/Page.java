@@ -29,6 +29,7 @@ public class Page {
     private final Map<Player, Data> viewers = new HashMap<>();
     private final Map<Player, Consumer<Data>> endFunctions = new HashMap<>();
 
+    public boolean reopen = false;
 
     public Page() {
         this.size = 54;
@@ -103,22 +104,13 @@ public class Page {
 
     public void show(Player player) {
         if (viewers.containsKey(player)) {
-            if (viewers.get(player).getData().containsKey("task")) {
-                if (viewers.get(player).getData().get("task") instanceof BukkitTask) {
-                    BukkitTask task = (BukkitTask) viewers.get(player).getData().get("task");
-                    if (task != null)
-                        task.cancel();
-                }
-            }
-            if (endFunctions.get(player) != null) {
-                endFunctions.get(player).accept(viewers.get(player));
-                endFunctions.remove(player);
-            }
-            viewers.remove(player);
+            viewers.get(player).addData("reopen", true);
+        } else {
+            viewers.put(player, new Data());
         }
-        viewers.put(player, new Data());
-        // test
-        if (!MenuListener.pages.contains(this)) MenuListener.pages.add(this);
+        if (!MenuListener.pages.contains(this)) {
+            MenuListener.pages.add(this);
+        }
         System.out.println("После добавления в MenuListener.pages: " + ColorUtil.disableColor(MenuListener.pages.toString()));
         System.out.println("Вьюверы этой страницы: " + viewers);
         player.openInventory(inventory);

@@ -84,22 +84,33 @@ public class MenuListener implements Listener {
         for (Page page : tempPages) {
             Player player = (Player) event.getPlayer();
             if (event.getInventory() == page.getInventory()) {
-                if (page.getViewers().get(player) != null && page.getViewers().get(player).getData() != null && page.getViewers().get(player).getData().containsKey("task")) {
-                    if (page.getViewers().get(player).getData().get("task") instanceof BukkitTask) {
-                        BukkitTask task = (BukkitTask) page.getViewers().get(player).getData().get("task");
-                        if (task != null)
-                            task.cancel();
+                boolean isReopen = false;
+                if (page.getViewers().get(player) != null && page.getViewers().get(player).getData() != null) {
+                    if (page.getViewers().get(player).getData().containsKey("reopen")) {
+                        isReopen = (boolean) page.getViewers().get(player).getData().get("reopen");
+                    }
+                    if (!isReopen) {
+                        if (page.getViewers().get(player).getData().containsKey("task")) {
+                            if (page.getViewers().get(player).getData().get("task") instanceof BukkitTask) {
+                                BukkitTask task = (BukkitTask) page.getViewers().get(player).getData().get("task");
+                                if (task != null)
+                                    task.cancel();
+                            }
+                        }
+                        if (page.getEndFunctions().get(player) != null) {
+                            page.getEndFunctions().get(player).accept(page.getViewers().get(player));
+                            page.getEndFunctions().remove(player);
+                        }
                     }
                 }
-                if (page.getEndFunctions().get(player) != null) {
-                    page.getEndFunctions().get(player).accept(page.getViewers().get(player));
-                    page.getEndFunctions().remove(player);
-                }
-                System.out.println("Удаляем при закрытии инвентаря ");
-                page.getViewers().remove(player);
-                if (page.getViewers().isEmpty()) {
-                    System.out.println("На этой странице нет вьеверов! Удаляем страницу...");
-                    MenuListener.pages.remove(page);
+                if (!isReopen) {
+                    page.getViewers().remove(player);
+                    if (page.getViewers().isEmpty()) {
+                        System.out.println("На этой странице нет вьеверов! Удаляем страницу...");
+                        MenuListener.pages.remove(page);
+                    }
+                } else {
+                    page.getViewers().get(player).getData().remove("reopen");
                 }
                 break;
             }
