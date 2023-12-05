@@ -220,6 +220,7 @@ public class Page {
         this.lastInventory = lastInventory;
     }
 
+
     @Override
     public String toString() {
         return "Page{" +
@@ -230,7 +231,8 @@ public class Page {
                 ", data=" + data +
                 ", viewers=" + viewers +
                 ", endFunctions=" + endFunctions +
+                ", reopen=" + reopen +
+                ", lastInventory=" + lastInventory +
                 '}';
     }
-
 }
