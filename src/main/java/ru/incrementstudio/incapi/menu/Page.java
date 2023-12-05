@@ -30,6 +30,7 @@ public class Page {
     private final Map<Player, Consumer<Data>> endFunctions = new HashMap<>();
 
     public boolean reopen = false;
+    private Inventory lastInventory;
 
     public Page() {
         this.size = 54;
@@ -104,6 +105,7 @@ public class Page {
 
     public void show(Player player) {
         System.out.println(ColorUtil.toColor("&aВызвался метод show(Player player)"));
+        System.out.println(viewers);
         if (viewers.containsKey(player)) {
             System.out.println("Игрок уже есть во вьюверах. Добавляем ему reopen - true");
             viewers.get(player).addData("reopen", true);
@@ -167,6 +169,7 @@ public class Page {
     public Page apply() {
         if (title == null) title = "";
         if (size % 9 != 0 || size < 9 || size > 54) size = 54;
+        if (inventory != null) lastInventory = inventory;
         inventory = Bukkit.createInventory(null, size, title);
         for (int i = 0; i < size; i++) {
             Item item = display.getItems()[i];
@@ -208,6 +211,15 @@ public class Page {
     public Map<Player, Consumer<Data>> getEndFunctions() {
         return endFunctions;
     }
+
+    public Inventory getLastInventory() {
+        return lastInventory;
+    }
+
+    public void setLastInventory(Inventory lastInventory) {
+        this.lastInventory = lastInventory;
+    }
+
     @Override
     public String toString() {
         return "Page{" +

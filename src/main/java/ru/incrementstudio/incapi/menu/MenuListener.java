@@ -84,7 +84,7 @@ public class MenuListener implements Listener {
         List<Page> tempPages = new ArrayList<>(pages);
         for (Page page : tempPages) {
             Player player = (Player) event.getPlayer();
-            if (event.getInventory() == page.getInventory()) {
+            if (event.getInventory() == (page.getLastInventory() != null ? page.getLastInventory() : page.getInventory()) ) {
                 System.out.println("Инвентарь найден! " + event.getInventory());
                 boolean isReopen = false;
                 if (page.getViewers().get(player) != null && page.getViewers().get(player).getData() != null) {
