@@ -12,8 +12,6 @@ public class Page {
     private Inventory inventory;
     private Menu menu;
     private final Data data = new Data();
-//    private final Map<Player, Data> viewers = new HashMap<>();
-//    private final Map<Player, Consumer<Data>> endFunctions = new HashMap<>();
 
     public Page(Menu menu) {
         this.menu = menu;
@@ -95,61 +93,8 @@ public class Page {
     }
 
     public void show(Player player) {
-//        if (viewers.containsKey(player)) {
-//            viewers.get(player).setData("reopen", true);
-//        } else {
-//            viewers.put(player, new Data());
-//        }
-//        if (!MenuListener.pages.contains(this)) {
-//            MenuListener.pages.add(this);
-//        }
         player.openInventory(inventory);
     }
-//    public void show(Player player, Data data) {
-//        if (viewers.containsKey(player)) {
-//            if (viewers.get(player).getData().containsKey("task")) {
-//                if (viewers.get(player).getData().get("task") instanceof BukkitTask) {
-//                    BukkitTask task = (BukkitTask) viewers.get(player).getData().get("task");
-//                    if (task != null)
-//                        task.cancel();
-//                }
-//            }
-//            if (endFunctions.get(player) != null) {
-//                endFunctions.get(player).accept(viewers.get(player));
-//                endFunctions.remove(player);
-//            }
-//            viewers.remove(player);
-//        }
-//        viewers.put(player, data);
-//        if (!MenuListener.pages.contains(this)) MenuListener.pages.add(this);
-//        player.openInventory(inventory);
-//    }
-//
-//    public void show(Player player, Data data, Consumer<Data> start, Consumer<Data> end) {
-//        if (viewers.containsKey(player)) {
-//            if (viewers.get(player).getData().containsKey("task")) {
-//                if (viewers.get(player).getData().get("task") instanceof BukkitTask) {
-//                    BukkitTask task = (BukkitTask) viewers.get(player).getData().get("task");
-//                    if (task != null)
-//                        task.cancel();
-//                }
-//            }
-//            if (endFunctions.get(player) != null) {
-//                endFunctions.get(player).accept(viewers.get(player));
-//                endFunctions.remove(player);
-//            }
-//            viewers.remove(player);
-//        }
-//        start.accept(data);
-//        endFunctions.put(player, end);
-//        viewers.put(player, data);
-//        if (!MenuListener.pages.contains(this)) MenuListener.pages.add(this);
-//        player.openInventory(inventory);
-//    }
-//
-//    public Map<Player, Data> getViewers() {
-//        return viewers;
-//    }
 
     public Display getDisplay() {
         return display;
@@ -169,7 +114,4 @@ public class Page {
     public Inventory getInventory() {
         return inventory;
     }
-//    public Map<Player, Consumer<Data>> getEndFunctions() {
-//        return endFunctions;
-//    }
 }
