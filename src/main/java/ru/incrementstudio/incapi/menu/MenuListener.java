@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -50,13 +51,16 @@ public class MenuListener implements Listener {
             event.setCancelled(true);
     }
 
-//    @EventHandler
-//    public void onClose(InventoryCloseEvent event) {
-//        InventoryHolder inventoryHolder = event.getInventory().getHolder();
-//        if (inventoryHolder instanceof PageInventoryHolder) {
-//            PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
-//        }
-//    }
+    @EventHandler
+    public void onClose(InventoryCloseEvent event) {
+        InventoryHolder inventoryHolder = event.getInventory().getHolder();
+        if (inventoryHolder == null) return;
+        if (inventoryHolder instanceof PageInventoryHolder) {
+            PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
+            Map<Player, Data> viewers = pageInventoryHolder.getPage().getMenu().getViewers();
+            viewers.remove(event.getPlayer());
+        }
+    }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
