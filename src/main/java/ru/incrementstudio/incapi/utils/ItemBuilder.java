@@ -188,11 +188,11 @@ public class ItemBuilder {
 
     public ItemBuilder setGlowing(boolean isGlowing) {
         if (isGlowing) {
-            itemStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
-            itemStack.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            itemMeta.addEnchant(Enchantment.LUCK, 1, true);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         } else {
-            itemStack.removeEnchantment(Enchantment.LUCK);
-            itemStack.removeItemFlags(ItemFlag.HIDE_ENCHANTS);
+            itemMeta.removeEnchant(Enchantment.LUCK);
+            itemMeta.removeItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         return this;
     }
