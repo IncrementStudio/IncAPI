@@ -63,5 +63,5 @@ public class Menu {
         return this;
     }
 
-    public void onClose(InventoryCloseEvent event) { }
+    public void onPlayerClose(Player player, InventoryCloseEvent event) { }
 }

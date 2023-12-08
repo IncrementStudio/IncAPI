@@ -57,9 +57,10 @@ public class MenuListener implements Listener {
         if (inventoryHolder == null) return;
         if (inventoryHolder instanceof PageInventoryHolder) {
             PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
-            pageInventoryHolder.getPage().getMenu().onClose(event);
+            if (event.getReason() == InventoryCloseEvent.Reason.PLAYER)
+                pageInventoryHolder.getPage().getMenu().onPlayerClose((Player) event.getPlayer(), event);
             Map<Player, Data> viewers = pageInventoryHolder.getPage().getMenu().getViewers();
-            viewers.remove(event.getPlayer());
+            viewers.remove((Player) event.getPlayer());
         }
     }
 
