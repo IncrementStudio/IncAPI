@@ -13,23 +13,19 @@ public class Page {
     private Menu menu;
     private final Data data = new Data();
 
-    public Page(Menu menu) {
-        this.menu = menu;
+    public Page() {
         title = "";
         setDisplay(new Display(54));
     }
-    public Page(Menu menu, int size) {
-        this.menu = menu;
+    public Page(int size) {
         title = "";
         setDisplay(new Display(size));
     }
-    public Page(Menu menu, String title, int size) {
-        this.menu = menu;
+    public Page(String title, int size) {
         this.title = title;
         setDisplay(new Display(size));
     }
-    public Page(Menu menu, String title, Display display) {
-        this.menu = menu;
+    public Page(String title, Display display) {
         this.title = title;
         setDisplay(display);
     }
@@ -101,6 +97,9 @@ public class Page {
     }
     public Menu getMenu() {
         return menu;
+    }
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
     public int getSize() {
         return display.getSize();

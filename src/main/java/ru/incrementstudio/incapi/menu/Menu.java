@@ -1,6 +1,7 @@
 package ru.incrementstudio.incapi.menu;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,53 +10,58 @@ import java.util.Map;
 
 public class Menu {
     private final List<Page> pages = new ArrayList<>();
-    public List<Page> getPages() {
+    public final List<Page> getPages() {
         return pages;
     }
-    public Page getPage(int index) {
+    public final Page getPage(int index) {
         return pages.get(index);
     }
     private final Map<Player, Data> viewers = new HashMap<>();
-    public Map<Player, Data> getViewers() {
+    public final Map<Player, Data> getViewers() {
         return viewers;
     }
 
-    public void show(Player player) {
+    public final void show(Player player) {
         show(player, 0);
     }
-    public void show(Player player, Data data) {
+    public final void show(Player player, Data data) {
         show(player, 0, data);
     }
-    public void show(Player player, int page) {
+    public final void show(Player player, int page) {
         show(player, page, new Data());
     }
-    public void show(Player player, int page, Data data) {
+    public final void show(Player player, int page, Data data) {
         viewers.put(player, data);
         getPage(page).show(player);
     }
 
-    public Menu addPage(Page page) {
+    public final Menu addPage(Page page) {
+        page.setMenu(this);
         pages.add(page);
         return this;
     }
-    public Menu insertPage(Page page, int index) {
+    public final Menu insertPage(Page page, int index) {
+        page.setMenu(this);
         pages.add(index, page);
         return this;
     }
-    public Menu setPage(int index, Page page) {
+    public final Menu setPage(int index, Page page) {
+        page.setMenu(this);
         pages.set(index, page);
         return this;
     }
-    public Menu removePage(Page page) {
+    public final Menu removePage(Page page) {
         pages.remove(page);
         return this;
     }
-    public Menu removePage(int index) {
+    public final Menu removePage(int index) {
         pages.remove(index);
         return this;
     }
-    public Menu clearPages() {
+    public final Menu clearPages() {
         pages.clear();
         return this;
     }
+
+    public void onClose(InventoryCloseEvent event) { }
 }

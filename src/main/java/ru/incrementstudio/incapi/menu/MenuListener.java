@@ -29,7 +29,7 @@ public class MenuListener implements Listener {
                 Item itemData = page.getDisplay().getItems()[slot];
                 if (itemData instanceof Button) {
                     Button button = (Button) itemData;
-                    button.onClick(event);
+                    button.onClick((Player) event.getWhoClicked(), event);
                 }
             }
         }
@@ -57,6 +57,7 @@ public class MenuListener implements Listener {
         if (inventoryHolder == null) return;
         if (inventoryHolder instanceof PageInventoryHolder) {
             PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
+            pageInventoryHolder.getPage().getMenu().onClose(event);
             Map<Player, Data> viewers = pageInventoryHolder.getPage().getMenu().getViewers();
             viewers.remove(event.getPlayer());
         }
