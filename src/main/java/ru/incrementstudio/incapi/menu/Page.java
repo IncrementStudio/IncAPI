@@ -6,12 +6,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Page {
     private Display display;
     private String title;
     private Inventory inventory;
     private Menu menu;
     private final Data data = new Data();
+    private final Map<Player, Data> viewers = new HashMap<>();
+    public final Map<Player, Data> getViewers() {
+        return viewers;
+    }
 
     public Page() {
         title = "";
@@ -89,7 +96,16 @@ public class Page {
     }
 
     public void show(Player player) {
+        viewers.put(player, new Data());
         player.openInventory(inventory);
+    }
+    public void show(Player player, Data data) {
+        viewers.put(player, data);
+        player.openInventory(inventory);
+    }
+    public void reopenAll() {
+        for (Player player : viewers.keySet())
+            player.openInventory(inventory);
     }
 
     public Display getDisplay() {

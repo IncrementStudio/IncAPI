@@ -31,9 +31,13 @@ public class Menu {
         show(player, page, new Data());
     }
     public final void show(Player player, int page, Data data) {
-        if (!viewers.containsKey(player))
-            viewers.put(player, data);
+        viewers.put(player, data);
         getPage(page).show(player);
+    }
+    public final void reopenAll() {
+        for (Page page : pages) {
+            page.reopenAll();
+        }
     }
 
     public final Menu addPage(Page page) {

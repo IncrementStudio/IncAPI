@@ -11,8 +11,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import java.util.Map;
-
 public class MenuListener implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
@@ -59,8 +57,8 @@ public class MenuListener implements Listener {
             PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
             if (event.getReason() == InventoryCloseEvent.Reason.PLAYER)
                 pageInventoryHolder.getPage().getMenu().onPlayerClose((Player) event.getPlayer(), event);
-            Map<Player, Data> viewers = pageInventoryHolder.getPage().getMenu().getViewers();
-            viewers.remove((Player) event.getPlayer());
+            pageInventoryHolder.getPage().getViewers().remove((Player) event.getPlayer());
+            pageInventoryHolder.getPage().getMenu().getViewers().remove((Player) event.getPlayer());
         }
     }
 
@@ -70,8 +68,8 @@ public class MenuListener implements Listener {
         if (inventoryHolder == null) return;
         if (inventoryHolder instanceof PageInventoryHolder) {
             PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
-            Map<Player, Data> viewers = pageInventoryHolder.getPage().getMenu().getViewers();
-            viewers.remove(event.getPlayer());
+            pageInventoryHolder.getPage().getViewers().remove(event.getPlayer());
+            pageInventoryHolder.getPage().getMenu().getViewers().remove(event.getPlayer());
         }
     }
 }
