@@ -19,6 +19,10 @@ public class Input implements Listener {
     public static void addCancellableListener(Player player, Consumer<String> onChat, Action onCancel) {
         players.put(player, Map.entry(onChat, onCancel));
     }
+    public static void removeListener(Player player) {
+        if (!players.containsKey(player)) return;
+        players.remove(player);
+    }
 
     @EventHandler
     public void onChat(PlayerChatEvent event) {
