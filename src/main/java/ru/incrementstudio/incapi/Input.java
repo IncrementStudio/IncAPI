@@ -12,12 +12,12 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class Input implements Listener {
-    private static final HashMap<Player, Map.Entry<Consumer<String>, Action>> players = new HashMap<>();
+    private static final HashMap<Player, Map.Entry<Consumer<String>, Map.Entry<Boolean, Action>>> players = new HashMap<>();
     public static void addListener(Player player, Consumer<String> onChat) {
-        players.put(player, Map.entry(onChat, null));
+        players.put(player, Map.entry(onChat, Map.entry(false, () -> {})));
     }
     public static void addCancellableListener(Player player, Consumer<String> onChat, Action onCancel) {
-        players.put(player, Map.entry(onChat, onCancel));
+        players.put(player, Map.entry(onChat, Map.entry(true, onCancel)));
     }
     public static void removeListener(Player player) {
         if (!players.containsKey(player)) return;
@@ -35,9 +35,9 @@ public class Input implements Listener {
     @EventHandler
     public void onShift(PlayerToggleSneakEvent event) {
         if (!players.containsKey(event.getPlayer())) return;
-        if (players.get(event.getPlayer()).getValue() == null) return;
+        if (!players.get(event.getPlayer()).getValue().getKey()) return;
 
-        players.get(event.getPlayer()).getValue().execute();
+        players.get(event.getPlayer()).getValue().getValue().execute();
         players.remove(event.getPlayer());
     }
 
