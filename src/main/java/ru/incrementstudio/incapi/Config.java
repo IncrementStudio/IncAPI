@@ -1,51 +1,66 @@
 package ru.incrementstudio.incapi;
 
-import com.google.common.base.Charsets;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class Config {
-    private Plugin plugin;
-    private File file;
+    private final Plugin plugin;
+    private final int configVersion;
+    private final File file;
+    private final String fileName;
     private FileConfiguration config = null;
 
-    public Config(Plugin plugin, String path) {
+    public Config(Plugin plugin, int configVersion, String path) {
         this.plugin = plugin;
-        file = new File(path);
+        this.configVersion = configVersion;
+        this.file = new File(path);
+        this.fileName = file.getPath().substring(file.getPath().indexOf("plugins" + File.separator + plugin.getName() + File.separator) + ("plugins" + File.separator + plugin.getName() + File.separator).length());
+        reload();
     }
 
     public FileConfiguration get() {
-        if (config == null) {
-            reload();
-        }
         return config;
     }
 
     public void reload() {
+        update();
         config = YamlConfiguration.loadConfiguration(file);
-        final InputStream defConfigStream = plugin.getResource(file.getName());
-        if (defConfigStream == null) {
-            return;
+        if (config.getInt("config-version") < 1) {
+            plugin.getLogger().severe("Конфиг " + file.getName() + " не содержит поля config-version или его значение < 1! Загружаем стандартный...");
+            file.delete();
+            update();
         }
-        config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
+        int serverConfigVersion = config.getInt("config-version");
+        if (serverConfigVersion < configVersion) {
+            FileConfiguration defaultConfiguration = YamlConfiguration.loadConfiguration(
+                    new InputStreamReader(
+                            Objects.requireNonNull(plugin.getResource(fileName.replace(File.separator, "/")))));
+            for (String key : defaultConfiguration.getKeys(true)) {
+                if (!config.contains(key)) {
+                    config.set(key, defaultConfiguration.get(key));
+                }
+            }
+            config.set("config-version", configVersion);
+            save();
+        }
     }
 
     public void save() {
         try {
             get().save(file);
-        } catch (IOException e) { }
+        } catch (IOException ignored) {}
     }
 
     public void update() {
         if (!file.exists()) {
             file.getParentFile().mkdirs();
-            plugin.saveResource(file.getName(), false);
+            plugin.saveResource(fileName, false);
         }
     }
 }

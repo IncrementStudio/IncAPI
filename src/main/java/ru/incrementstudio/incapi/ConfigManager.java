@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigManager {
-    private Plugin plugin;
+    private final Plugin plugin;
+    private final int configVersion;
 
-    public ConfigManager(Plugin plugin, List<String> configNames) {
+    public ConfigManager(Plugin plugin, int configVersion, List<String> configNames) {
         this.plugin = plugin;
+        this.configVersion = configVersion;
         initialize(configNames);
     }
 
@@ -19,7 +21,7 @@ public class ConfigManager {
     public void initialize(List<String> configNames) {
         configs = new HashMap<>();
         for (String name : configNames) {
-            configs.put(name, new Config(plugin, "plugins//" + plugin.getName() + "//" + name + ".yml"));
+            configs.put(name, new Config(plugin, configVersion, "plugins//" + plugin.getName() + "//" + name + ".yml"));
         }
     }
 
