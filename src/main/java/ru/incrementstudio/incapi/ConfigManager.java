@@ -8,20 +8,27 @@ import java.util.Map;
 
 public class ConfigManager {
     private final Plugin plugin;
-    private final int configVersion;
+    private Map<String, Config> configs;
+
+    public ConfigManager(Plugin plugin, int configVersion, List<String> configNames, HashMap<String, Object> importantNewKeys) {
+        this.plugin = plugin;
+        initialize(configVersion, configNames, importantNewKeys);
+    }
 
     public ConfigManager(Plugin plugin, int configVersion, List<String> configNames) {
         this.plugin = plugin;
-        this.configVersion = configVersion;
-        initialize(configNames);
+        initialize(configVersion, configNames, new HashMap<>());
     }
 
-    private Map<String, Config> configs;
+    public ConfigManager(Plugin plugin, List<String> configNames) {
+        this.plugin = plugin;
+        initialize(0, configNames, new HashMap<>());
+    }
 
-    public void initialize(List<String> configNames) {
+    public void initialize(int configVersion, List<String> configNames, HashMap<String, Object> importantNewKeys) {
         configs = new HashMap<>();
         for (String name : configNames) {
-            configs.put(name, new Config(plugin, configVersion, "plugins//" + plugin.getName() + "//" + name + ".yml"));
+            configs.put(name, new Config(plugin, configVersion, "plugins//" + plugin.getName() + "//" + name + ".yml", importantNewKeys));
         }
     }
 
