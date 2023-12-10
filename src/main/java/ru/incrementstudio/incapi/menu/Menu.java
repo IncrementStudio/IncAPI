@@ -31,7 +31,8 @@ public class Menu {
         show(player, page, new Data());
     }
     public final void show(Player player, int page, Data data) {
-        viewers.put(player, data);
+        if (!viewers.containsKey(player))
+            viewers.put(player, data);
         getPage(page).show(player);
     }
 
