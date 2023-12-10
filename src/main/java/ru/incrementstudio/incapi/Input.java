@@ -5,19 +5,36 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class Input implements Listener {
-    public static HashMap<Player, Consumer<? super String>> players = new HashMap<>();
+    private static final HashMap<Player, Map.Entry<Consumer<String>, Action>> players = new HashMap<>();
+    public static void addListener(Player player, Consumer<String> onChat) {
+        players.put(player, Map.entry(onChat, null));
+    }
+    public static void addCancellableListener(Player player, Consumer<String> onChat, Action onCancel) {
+        players.put(player, Map.entry(onChat, onCancel));
+    }
 
     @EventHandler
     public void onChat(PlayerChatEvent event) {
-        if (players.containsKey(event.getPlayer())) {
-            event.setCancelled(true);
-            players.get(event.getPlayer()).accept(event.getMessage());
-        }
+        if (!players.containsKey(event.getPlayer())) return;
+
+        players.get(event.getPlayer()).getKey().accept(event.getMessage());
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onShift(PlayerToggleSneakEvent event) {
+        if (!players.containsKey(event.getPlayer())) return;
+        if (players.get(event.getPlayer()).getValue() == null) return;
+
+        players.get(event.getPlayer()).getValue().execute();
+        players.remove(event.getPlayer());
     }
 
     @EventHandler
