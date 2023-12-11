@@ -1,4 +1,4 @@
-package ru.incrementstudio.incapi;
+package ru.incrementstudio.incapi.configs;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

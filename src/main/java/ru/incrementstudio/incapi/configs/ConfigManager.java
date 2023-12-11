@@ -1,4 +1,4 @@
-package ru.incrementstudio.incapi;
+package ru.incrementstudio.incapi.configs;
 
 import org.bukkit.plugin.Plugin;
 
