@@ -16,6 +16,10 @@ public class Menu {
     public final Page getPage(int index) {
         return pages.get(index);
     }
+    private final Data data = new Data();
+    public final Data getData() {
+        return data;
+    }
     private final Map<Player, Data> viewers = new HashMap<>();
     public final Map<Player, Data> getViewers() {
         return viewers;

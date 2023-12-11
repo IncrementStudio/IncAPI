@@ -151,48 +151,38 @@ public class ItemBuilder {
     }
 
 
+    public ItemBuilder addEnchantment(Enchantment enchantment) {
+        return addEnchantment(enchantment, 1);
+    }
     public ItemBuilder addEnchantment(Enchantment enchantment, int level) {
-        itemStack.addUnsafeEnchantment(enchantment, level);
+        itemMeta.addEnchant(enchantment, level, true);
         return this;
     }
-
     public ItemBuilder addEnchantments(Enchantment... enchantments) {
-        itemStack.addUnsafeEnchantments(new HashMap<>(){{
-            for (Enchantment enchantment: enchantments) {
-                put(enchantment, 1);
-            }
-        }});
-        return this;
+        return addEnchantments(1, enchantments);
     }
-
     public ItemBuilder addEnchantments(int level, Enchantment... enchantments) {
-        itemStack.addUnsafeEnchantments(new HashMap<>(){{
-            for (Enchantment enchantment: enchantments) {
-                put(enchantment, level);
-            }
-        }});
+        for (Enchantment enchantment : enchantments)
+            itemMeta.addEnchant(enchantment, level, true);
         return this;
     }
-
     public ItemBuilder removeEnchantment(Enchantment enchantment) {
-        itemStack.removeEnchantment(enchantment);
+        itemMeta.removeEnchant(enchantment);
         return this;
     }
-
     public ItemBuilder removeEnchantments(Enchantment... enchantments) {
-        for (Enchantment enchantment: enchantments) {
-            itemStack.removeEnchantment(enchantment);
-        }
+        for (Enchantment enchantment: enchantments)
+            removeEnchantment(enchantment);
         return this;
     }
 
     public ItemBuilder setGlowing(boolean isGlowing) {
         if (isGlowing) {
-            itemMeta.addEnchant(Enchantment.LUCK, 1, true);
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            addEnchantment(Enchantment.LUCK);
+            addItemFlags(ItemFlag.HIDE_ENCHANTS);
         } else {
-            itemMeta.removeEnchant(Enchantment.LUCK);
-            itemMeta.removeItemFlags(ItemFlag.HIDE_ENCHANTS);
+            removeEnchantment(Enchantment.LUCK);
+            removeItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         return this;
     }
@@ -208,47 +198,49 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addItemFlags(ItemFlag... flags) {
-        itemStack.addItemFlags(flags);
+        itemMeta.addItemFlags(flags);
         return this;
     }
 
     public ItemBuilder removeItemFlags(ItemFlag... flags) {
-        itemStack.removeItemFlags(flags);
+        itemMeta.removeItemFlags(flags);
         return this;
     }
 
-    public ItemBuilder addPersistentData(String key, PersistentDataType persistentDataType, Object value) {
+    public ItemBuilder setPersistentData(String key, PersistentDataType persistentDataType, Object value) {
         itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), persistentDataType, value);
-
         return this;
     }
 
-    public ItemBuilder addPersistentData(PersistentData persistentData) {
+    public ItemBuilder setPersistentData(PersistentData persistentData) {
         itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(persistentData.getKey()), persistentData.getPersistentDataType(), persistentData.getValue());
         return this;
     }
 
-    public ItemBuilder addPersistentData(List<PersistentData> persistentData) {
+    public ItemBuilder setPersistentData(List<PersistentData> persistentData) {
         for (PersistentData persistentData1: persistentData)
             itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(persistentData1.getKey()), persistentData1.getPersistentDataType(), persistentData1.getValue());
         return this;
     }
-
-
-    public ItemBuilder removePersistentData(String key) {
+    public ItemBuilder removePersistentData(String key, PersistentDataType persistentDataType) {
         itemMeta.getPersistentDataContainer().remove(NamespacedKey.fromString(key));
         return this;
     }
 
-    public ItemBuilder addValue(String key, String value) {
+
+    public ItemBuilder removeData(String key) {
+        itemMeta.getPersistentDataContainer().remove(NamespacedKey.fromString(key));
+        return this;
+    }
+
+    public ItemBuilder setData(String key, String value) {
         itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(key), PersistentDataType.STRING, value);
         return this;
     }
 
-    public ItemBuilder addValues(HashMap<String, String> values) {
-        for (Map.Entry<String, String> value: values.entrySet()) {
+    public ItemBuilder setData(HashMap<String, String> values) {
+        for (Map.Entry<String, String> value: values.entrySet())
             itemMeta.getPersistentDataContainer().set(NamespacedKey.fromString(value.getKey()), PersistentDataType.STRING, value.getValue());
-        }
         return this;
     }
 

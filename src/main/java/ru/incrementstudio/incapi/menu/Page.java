@@ -74,10 +74,6 @@ public class Page {
         }
         return this;
     }
-    public Page setData(String key, Object value) {
-        data.setData(key, value);
-        return this;
-    }
     public Page setSlot(Item item, int slot) {
         display.setSlot(item, slot);
         return this;
