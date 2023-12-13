@@ -37,12 +37,14 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setItemStack(ItemStack itemStack) {
+        if (itemStack == null) return this;
         this.itemStack = itemStack.clone();
         this.itemMeta = itemStack.getItemMeta();
         return this;
     }
 
     public ItemBuilder setItemMeta(ItemMeta itemMeta) {
+        if (itemStack == null) return this;
         this.itemMeta = itemMeta;
         return this;
     }

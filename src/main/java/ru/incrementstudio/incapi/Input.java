@@ -45,4 +45,8 @@ public class Input implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         players.remove(event.getPlayer());
     }
+
+    public static HashMap<Player, Map.Entry<Consumer<String>, Map.Entry<Boolean, Action>>> getPlayers() {
+        return players;
+    }
 }
