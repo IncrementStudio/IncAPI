@@ -107,6 +107,14 @@ public class Page {
     public Display getDisplay() {
         return display;
     }
+
+
+    public Page clearDisplay() {
+        for (int i = 0; i < display.getSize(); i++) {
+            display.setSlot(new ItemStack(Material.AIR), i);
+        }
+        return this;
+    }
     public Menu getMenu() {
         return menu;
     }
