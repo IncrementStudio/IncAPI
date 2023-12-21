@@ -7,9 +7,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Config {
     private final Plugin plugin;
@@ -96,5 +94,36 @@ public class Config {
             file.getParentFile().mkdirs();
             plugin.saveResource(fileName, false);
         }
+    }
+
+    public Map<String, String> getDefines() {
+        Map<String, String> result = new HashMap<>();
+        if (!config.contains("defines")) return result;
+        List<String> rawDefines = config.getStringList("defines");
+        for (String rawDefine : rawDefines) {
+            if (!rawDefine.contains("=")) continue;
+            try {
+                String key = rawDefine.substring(0, rawDefine.indexOf("="));
+                if (key.isEmpty()) continue;
+                String value = rawDefine.substring(rawDefine.indexOf("=") + 1);
+                result.put(key, value);
+            } catch (IndexOutOfBoundsException ignored) { }
+        }
+        return result;
+    }
+
+    public String applyDefines(String value) {
+        for (Map.Entry<String, String> define : getDefines().entrySet()) {
+            if (!value.contains("%" + define.getKey() + "%")) continue;
+            value = value.replace("%" + define.getKey() + "%", define.getValue());
+        }
+        return value;
+    }
+
+    public List<String> applyDefines(List<String> value) {
+        List<String> result = new ArrayList<>();
+        for (String line : value)
+            result.add(applyDefines(line));
+        return result;
     }
 }
