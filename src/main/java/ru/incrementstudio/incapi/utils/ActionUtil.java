@@ -98,7 +98,7 @@ public class ActionUtil {
             String finalAction = action;
             int finalRepeats = repeats;
             new BukkitRunnable() {
-                int r = 0;
+                int r = 1;
                 @Override
                 public void run() {
                     for (Player player : players) {
