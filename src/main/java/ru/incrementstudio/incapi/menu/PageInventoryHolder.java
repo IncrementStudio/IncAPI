@@ -2,7 +2,6 @@ package ru.incrementstudio.incapi.menu;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.jetbrains.annotations.NotNull;
 
 public class PageInventoryHolder implements InventoryHolder {
     private Page page;
@@ -15,7 +14,7 @@ public class PageInventoryHolder implements InventoryHolder {
     }
 
     @Override
-    public @NotNull Inventory getInventory() {
+    public Inventory getInventory() {
         return null;
     }
 }
