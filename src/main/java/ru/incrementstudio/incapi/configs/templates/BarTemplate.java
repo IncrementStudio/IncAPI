@@ -1,10 +1,11 @@
 package ru.incrementstudio.incapi.configs.templates;
 
+import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.ConfigurationSection;
-import ru.incrementstudio.incapi.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,19 @@ public class BarTemplate {
     public BarStyle getStyle() { return style; }
     public List<BarFlag> getFlags() { return flags; }
 
+    public void setColor(BarColor color) { this.color = color; }
+    public void setStyle(BarStyle style) { this.style = style; }
+    public void setFlags(List<BarFlag> flags) { this.flags = flags; }
+
     public BarTemplate(ConfigurationSection configSection) {
-        if (configSection.contains("color")) color = BarColor.valueOf(StringUtil.getStringFromString(configSection.getString("color")));
-        if (configSection.contains("style")) style = BarStyle.valueOf(StringUtil.getStringFromString(configSection.getString("style")));
+        if (configSection.contains("color")) color = BarColor.valueOf(configSection.getString("color"));
+        if (configSection.contains("style")) style = BarStyle.valueOf(configSection.getString("style"));
         if (configSection.contains("flags")) flags = configSection.getStringList("flags").stream()
-                .map(x -> BarFlag.valueOf(StringUtil.getStringFromString(x)))
+                .map(BarFlag::valueOf)
                 .collect(Collectors.toList());
+    }
+
+    public BossBar create(String title) {
+        return Bukkit.createBossBar(title, color, style, flags.toArray(new BarFlag[0]));
     }
 }

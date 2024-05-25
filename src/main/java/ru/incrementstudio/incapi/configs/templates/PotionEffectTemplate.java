@@ -18,12 +18,12 @@ public class PotionEffectTemplate {
     public boolean isIcon() { return icon; }
 
     public PotionEffectTemplate(ConfigurationSection configSection) {
-        if (configSection.contains("type")) type = PotionEffectType.getByName(StringUtil.getStringFromString(configSection.getString("type")));
-        if (configSection.contains("duration")) duration = StringUtil.getIntFromString(configSection.getString("duration"));
-        if (configSection.contains("amplifier")) amplifier = StringUtil.getIntFromString(configSection.getString("amplifier"));
-        if (configSection.contains("ambient")) ambient = StringUtil.getBooleanFromString(configSection.getString("ambient"));
-        if (configSection.contains("particles")) particles = StringUtil.getBooleanFromString(configSection.getString("particles"));
-        if (configSection.contains("icon")) icon = StringUtil.getBooleanFromString(configSection.getString("icon"));
+        if (configSection.contains("type")) type = PotionEffectType.getByName(configSection.getString("type"));
+        if (configSection.contains("duration")) duration = configSection.getInt("duration");
+        if (configSection.contains("amplifier")) amplifier = configSection.getInt("amplifier");
+        if (configSection.contains("ambient")) ambient = configSection.getBoolean("ambient");
+        if (configSection.contains("particles")) particles = configSection.getBoolean("particles");
+        if (configSection.contains("icon")) icon = configSection.getBoolean("icon");
     }
 
     public PotionEffect getPotionEffect() {

@@ -3,6 +3,7 @@ package ru.incrementstudio.incapi.utils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -142,5 +143,41 @@ public class ColorUtil {
             }
         }
         return string;
+    }
+
+    public static String toGradient(String string, boolean bold, boolean italic, Color... colors) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < string.length(); i++) {
+            double lerper = MathUtil.inverseLerp(0, string.length(), i);
+            Color color1 = getFromColor(colors, lerper);
+            Color color2 = getToColor(colors, lerper);
+            double r = MathUtil.lerp(color1.getRed(), color2.getRed(), lerper);
+            double g = MathUtil.lerp(color1.getGreen(), color2.getGreen(), lerper);
+            double b = MathUtil.lerp(color1.getBlue(), color2.getBlue(), lerper);
+            Color color = new Color((int)r, (int)g, (int)b);
+            result.append(String.format("&#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()));
+            if (bold) result.append("&l");
+            if (italic) result.append("&o");
+            result.append(string.toCharArray()[i]);
+        }
+        return ColorUtil.toColor(result.toString());
+    }
+
+    private static Color getFromColor(Color[] colors, double time) {
+        for (int i = colors.length - 1; i >= 0; i--) {
+            double part = 1.0 / (colors.length - 1);
+            if (i * part <= time)
+                return colors[i];
+        }
+        return null;
+    }
+
+    private static Color getToColor(Color[] colors, double time) {
+        for (int i = 0; i < colors.length; i++) {
+            double part = 1.0 / (colors.length - 1);
+            if (i * part > time)
+                return colors[i];
+        }
+        return null;
     }
 }

@@ -13,8 +13,8 @@ public class SoundTemplate {
     public float getPitch() { return pitch; }
 
     public SoundTemplate(ConfigurationSection configSection) {
-        if (configSection.contains("sound")) sound = Sound.valueOf(StringUtil.getStringFromString(configSection.getString("sound")));
-        if (configSection.contains("volume")) volume = (float) StringUtil.getDoubleFromString(configSection.getString("volume"));
-        if (configSection.contains("pitch")) pitch = (float) StringUtil.getDoubleFromString(configSection.getString("pitch"));
+        if (configSection.contains("sound")) sound = Sound.valueOf(configSection.getString("sound"));
+        if (configSection.contains("volume")) volume = (float) configSection.getDouble("volume");
+        if (configSection.contains("pitch")) pitch = (float) configSection.getDouble("pitch");
     }
 }

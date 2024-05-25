@@ -11,7 +11,6 @@
 
     <name>IncAPI</name>
 
-    <description>API для всех плагинов | vk.com/incrementstudio</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -70,8 +69,8 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>sonatype</id>
@@ -97,8 +96,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
