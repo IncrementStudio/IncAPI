@@ -11,15 +11,18 @@ import ru.incrementstudio.incapi.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PluginUtil {
-    public static void setCommand(Plugin plugin, Logger logger, String commandName, CommandExecutor commandExecutor, TabCompleter tabCompleter) {
+    public static void setCommand(Plugin plugin, Logger logger, String commandName, CommandExecutor commandExecutor, TabCompleter tabCompleter, List<String> aliases) {
         try {
             PluginCommand command;
             CommandMap map = null;
             Constructor<PluginCommand> c = PluginCommand.class.getDeclaredConstructor(String.class, org.bukkit.plugin.Plugin.class);
             c.setAccessible(true);
             command = c.newInstance(commandName, plugin);
+            command.setAliases(new ArrayList<>(aliases));
             if (Bukkit.getPluginManager() instanceof SimplePluginManager) {
                 Field f = SimplePluginManager.class.getDeclaredField("commandMap");
                 f.setAccessible(true);
