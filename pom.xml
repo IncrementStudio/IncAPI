@@ -15,12 +15,6 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>vk.com/incrementstudio</url>
-
-    <organization>
-        <name>IncrementStudio++</name>
-        <url>https://github.com/IncrementStudio</url>
-    </organization>
 
     <build>
         <plugins>

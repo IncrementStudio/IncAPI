@@ -7,7 +7,7 @@ public class PlayerUtil {
         if (player != null) {
             name = player.getName();
         } else {
-            name = "Игрок";
+            name = "Player";
         }
         return name;
     }

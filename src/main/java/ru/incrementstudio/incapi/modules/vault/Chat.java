@@ -2,7 +2,6 @@ package ru.incrementstudio.incapi.modules.vault;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import ru.incrementstudio.incapi.Logger;
 
 public class Chat {
     private Plugin plugin;
@@ -11,7 +10,7 @@ public class Chat {
     public Chat(Plugin plugin) {
         this.plugin = plugin;
         if (!setupChat()) {
-            new Logger(plugin).error("Не удалось зарегистрировать систему чата Vault");
+            plugin.getLogger().severe("Не удалось зарегистрировать систему чата Vault");
             isVaultSetup = false;
             return;
         }

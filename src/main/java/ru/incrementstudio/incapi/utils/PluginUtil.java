@@ -5,9 +5,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
-import ru.incrementstudio.incapi.Logger;
+import ru.incrementstudio.incapi.IncPlugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PluginUtil {
-    public static void setCommand(Plugin plugin, Logger logger, String commandName, CommandExecutor commandExecutor, TabCompleter tabCompleter, List<String> aliases) {
+    public static void setCommand(IncPlugin plugin, String commandName, CommandExecutor commandExecutor, TabCompleter tabCompleter, List<String> aliases) {
         try {
             PluginCommand command;
             CommandMap map = null;
@@ -28,21 +27,15 @@ public class PluginUtil {
                 f.setAccessible(true);
                 map = (CommandMap)f.get(Bukkit.getPluginManager());
             }
-            if (map != null) {
+            if (map != null)
                 map.register(plugin.getDescription().getName(), command);
-            }
             command.setExecutor(commandExecutor);
             command.setTabCompleter(tabCompleter);
-        }
-        catch (Exception exception) {
-            logger.error("Не удалось зарегистрировать команду &6'&e" + commandName + "&6'&c. Ошибка: ");
-            exception.printStackTrace();
-            try {
-                Bukkit.getPluginManager().disablePlugin(plugin);
-            } catch (Exception exception1) {
-                logger.error("Произошла ошибка во время остановки плагина. Ошибка: ");
-                exception1.printStackTrace();
-            }
+        } catch (Exception e) {
+            plugin.logger().error(
+                    "Не удалось зарегистрировать команду &6" + commandName,
+                    e.toString()
+            );
         }
     }
 }

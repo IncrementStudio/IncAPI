@@ -4,19 +4,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import ru.incrementstudio.incapi.Logger;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Permission {
-    private Plugin plugin;
+    private final Plugin plugin;
     private net.milkbowl.vault.permission.Permission permission;
     public final boolean isVaultSetup;
     public Permission(Plugin plugin) {
         this.plugin = plugin;
         if (!setupPermissions()) {
-            new Logger(plugin).error("Не удалось зарегистрировать систему разрешений Vault");
+            plugin.getLogger().severe("Не удалось зарегистрировать систему разрешений Vault");
             isVaultSetup = false;
             return;
         }

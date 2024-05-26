@@ -15,7 +15,6 @@ public class HologramUtil {
         armorStand.setSmall(true);
         armorStand.setFireTicks(0);
         armorStand.setVisible(false);
-//        armorStand.setCanMove(false);
         armorStand.setGravity(false);
         armorStand.setCustomName(text);
         armorStand.setCustomNameVisible(true);

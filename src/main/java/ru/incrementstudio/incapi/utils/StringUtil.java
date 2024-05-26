@@ -40,18 +40,21 @@ public class StringUtil {
 //        }
 //    }
 
-    public static long toTicks(String timeMetric) {
-        Matcher delayMatcher = Pattern.compile("^(\\d+)(\\w+)$").matcher(timeMetric);
-        if (!delayMatcher.matches()) return 0;
-        long delayValue = Long.parseLong(delayMatcher.group(1));
-        String delayMetric = delayMatcher.group(2);
-        if (delayMetric.equalsIgnoreCase("t") || delayMetric.equalsIgnoreCase("tick"))
-            return delayValue;
-        else if (delayMetric.equalsIgnoreCase("s") || delayMetric.equalsIgnoreCase("sec"))
-            return delayValue * 20;
-        else if (delayMetric.equalsIgnoreCase("m") || delayMetric.equalsIgnoreCase("min"))
-            return delayValue * 20 * 60;
-        return 0;
+    public static long fromTimeMetric(String string) {
+        Matcher matcher = Pattern.compile("^(\\d+)(tick|t|sec|s|min|m|hour|h)$").matcher(string);
+        if (matcher.matches()) {
+            long value = Long.parseLong(matcher.group(1));
+            String metric = matcher.group(2);
+            if (metric.equalsIgnoreCase("tick") || metric.equalsIgnoreCase("t"))
+                return value;
+            else if (metric.equalsIgnoreCase("sec") || metric.equalsIgnoreCase("s"))
+                return value * 20;
+            else if (metric.equalsIgnoreCase("min") || metric.equalsIgnoreCase("m"))
+                return value * 20 * 60;
+            else if (metric.equalsIgnoreCase("hour") || metric.equalsIgnoreCase("h"))
+                return value * 20 * 60 * 60;
+        }
+        return -1;
     }
 
     public static String getRandomString(int length) {

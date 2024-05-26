@@ -5,7 +5,6 @@ import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
-import ru.incrementstudio.incapi.Logger;
 
 public class Points {
     private final Plugin plugin;
@@ -15,7 +14,7 @@ public class Points {
     public Points(Plugin plugin) {
         this.plugin = plugin;
         if (!setupPoints()) {
-            new Logger(plugin).error("Не удалось зарегистрировать денежную систему PlayerPoints");
+            plugin.getLogger().severe("Не удалось зарегистрировать денежную систему &6PlayerPoints");
             isPlayerPointsSetup = false;
             return;
         }

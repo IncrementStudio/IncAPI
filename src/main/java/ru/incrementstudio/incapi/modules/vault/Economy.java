@@ -4,7 +4,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import ru.incrementstudio.incapi.Logger;
 
 public class Economy {
     private final Plugin plugin;
@@ -13,7 +12,7 @@ public class Economy {
     public Economy(Plugin plugin) {
         this.plugin = plugin;
         if (!setupEconomy()) {
-            new Logger(plugin).error("Не удалось зарегистрировать денежную систему Vault");
+            plugin.getLogger().severe("Не удалось зарегистрировать денежную систему &6Vault");
             isVaultSetup = false;
             return;
         }

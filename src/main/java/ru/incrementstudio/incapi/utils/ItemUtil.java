@@ -8,10 +8,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class ItemUtil {
     public static ItemStack getHead(OfflinePlayer player) {
-        ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta skull = (SkullMeta) item.getItemMeta();
         if (player != null && player.getPlayer() != null) {
-//            skull.setPlayerProfile(player.getPlayer().getPlayerProfile());
+            skull.setOwningPlayer(player.getPlayer());
         }
         item.setItemMeta(skull);
         return item;
