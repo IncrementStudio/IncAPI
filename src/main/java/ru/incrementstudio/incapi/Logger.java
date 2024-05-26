@@ -21,4 +21,13 @@ public class Logger extends java.util.logging.Logger {
         severe(header + "&c:");
         severe("> " + msg);
     }
+    public void action(String msg) {
+        simple("  &8- &r" + msg);
+    }
+    public void subaction(String msg) {
+        simple("    &8| &r" + msg);
+    }
+    public void simple(String msg) {
+        System.out.println(ColorUtil.toColor(msg));
+    }
 }
