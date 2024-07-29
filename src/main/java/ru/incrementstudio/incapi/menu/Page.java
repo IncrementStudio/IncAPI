@@ -65,8 +65,8 @@ public class Page {
         }
         return this;
     }
-    public Page apply() {
-        inventory = Bukkit.createInventory(new PageInventoryHolder(this), getSize(), title);
+    public Page apply(boolean canClick, boolean canDrag, boolean canDrop) {
+        inventory = Bukkit.createInventory(new PageInventoryHolder(this, canClick, canDrag, canDrop), getSize(), title);
         for (int i = 0; i < getSize(); i++) {
             Item item = display.getItems()[i];
             if (item == null) continue;
