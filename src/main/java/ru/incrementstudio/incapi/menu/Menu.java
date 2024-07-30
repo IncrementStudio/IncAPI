@@ -2,6 +2,7 @@ package ru.incrementstudio.incapi.menu;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;

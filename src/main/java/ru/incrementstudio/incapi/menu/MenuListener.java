@@ -19,8 +19,8 @@ public class MenuListener implements Listener {
         InventoryHolder inventoryHolder = inventory.getHolder();
         if (inventoryHolder == null) return;
         if (inventoryHolder instanceof PageInventoryHolder) {
-            event.setCancelled(true);
             PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
+            if (!pageInventoryHolder.isCanClick()) event.setCancelled(true);
             Page page = pageInventoryHolder.getPage();
             if (event.getCurrentItem() != null) {
                 int slot = event.getSlot();
@@ -33,20 +33,25 @@ public class MenuListener implements Listener {
         }
     }
 
+
     @EventHandler
     public void onDrag(InventoryDragEvent event) {
         InventoryHolder inventoryHolder = event.getInventory().getHolder();
         if (inventoryHolder == null) return;
-        if (inventoryHolder instanceof PageInventoryHolder)
-            event.setCancelled(true);
+        if (inventoryHolder instanceof PageInventoryHolder) {
+            PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
+            if (!pageInventoryHolder.isCanDrag()) event.setCancelled(true);
+        }
     }
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
         InventoryHolder inventoryHolder = event.getPlayer().getOpenInventory().getTopInventory().getHolder();
         if (inventoryHolder == null) return;
-        if (inventoryHolder instanceof PageInventoryHolder)
-            event.setCancelled(true);
+        if (inventoryHolder instanceof PageInventoryHolder) {
+            PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
+            if (!pageInventoryHolder.isCanDrop()) event.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -55,8 +60,8 @@ public class MenuListener implements Listener {
         if (inventoryHolder == null) return;
         if (inventoryHolder instanceof PageInventoryHolder) {
             PageInventoryHolder pageInventoryHolder = (PageInventoryHolder) inventoryHolder;
-//            if (event.getReason() == InventoryCloseEvent.PLAYER)
-//                pageInventoryHolder.getPage().getMenu().onPlayerClose((Player) event.getPlayer(), event);
+            if (event.getReason() == InventoryCloseEvent.Reason.PLAYER)
+                pageInventoryHolder.getPage().getMenu().onPlayerClose((Player) event.getPlayer(), event);
             pageInventoryHolder.getPage().getViewers().remove((Player) event.getPlayer());
             pageInventoryHolder.getPage().getMenu().getViewers().remove((Player) event.getPlayer());
         }

@@ -1,10 +1,37 @@
 package ru.incrementstudio.incapi.utils;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StringUtil {
+    public static String repeat(String pattern, int count) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            result.append(pattern);
+        }
+        return result.toString();
+    }
+
+    public static long fromTimeMetric(String string) {
+        Matcher matcher = Pattern.compile("^(\\d+)(tick|t|sec|s|min|m|hour|h)$").matcher(string);
+        if (matcher.matches()) {
+            long value = Long.parseLong(matcher.group(1));
+            String metric = matcher.group(2);
+            if (metric.equalsIgnoreCase("tick") || metric.equalsIgnoreCase("t"))
+                return value;
+            else if (metric.equalsIgnoreCase("sec") || metric.equalsIgnoreCase("s"))
+                return value * 20;
+            else if (metric.equalsIgnoreCase("min") || metric.equalsIgnoreCase("m"))
+                return value * 20 * 60;
+            else if (metric.equalsIgnoreCase("hour") || metric.equalsIgnoreCase("h"))
+                return value * 20 * 60 * 60;
+        }
+        return -1;
+    }
+
 //    public static String getStringFromString(String value) {
 //        if (value.contains(" %: ")) {
 //            String[] values = value.split(" %: ");
@@ -39,23 +66,6 @@ public class StringUtil {
 //            return Double.parseDouble(value);
 //        }
 //    }
-
-    public static long fromTimeMetric(String string) {
-        Matcher matcher = Pattern.compile("^(\\d+)(tick|t|sec|s|min|m|hour|h)$").matcher(string);
-        if (matcher.matches()) {
-            long value = Long.parseLong(matcher.group(1));
-            String metric = matcher.group(2);
-            if (metric.equalsIgnoreCase("tick") || metric.equalsIgnoreCase("t"))
-                return value;
-            else if (metric.equalsIgnoreCase("sec") || metric.equalsIgnoreCase("s"))
-                return value * 20;
-            else if (metric.equalsIgnoreCase("min") || metric.equalsIgnoreCase("m"))
-                return value * 20 * 60;
-            else if (metric.equalsIgnoreCase("hour") || metric.equalsIgnoreCase("h"))
-                return value * 20 * 60 * 60;
-        }
-        return -1;
-    }
 
     public static String getRandomString(int length) {
         String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
