@@ -1,5 +1,6 @@
 package ru.incrementstudio.incapi;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import ru.incrementstudio.incapi.utils.ColorUtil;
 
@@ -14,7 +15,22 @@ public class Logger extends java.util.logging.Logger {
 
     @Override
     public void log(Level level, String msg) {
-        super.log(level, ColorUtil.toColor(msg));
+        Bukkit.getLogger().log(level, ColorUtil.toColor("&f[&7" + getName() + "&f] &f" + msg));
+    }
+
+    @Override
+    public void info(String msg) {
+        Bukkit.getLogger().info(ColorUtil.toColor("&a[&f" + getName() + "&a] &f" + msg));
+    }
+
+    @Override
+    public void warning(String msg) {
+        Bukkit.getLogger().warning(ColorUtil.toColor("&e[&f" + getName() + "&e] " + msg));
+    }
+
+    @Override
+    public void severe(String msg) {
+        Bukkit.getLogger().severe(ColorUtil.toColor("&c[&f" + getName() + "&c] " + msg));
     }
 
     public void error(String header, String msg) {
@@ -22,13 +38,13 @@ public class Logger extends java.util.logging.Logger {
         severe("> " + msg);
     }
     public void action(String msg) {
-        simple("  &8- &r" + msg);
+        simple("  &8- &f" + msg);
     }
     public void subaction(String msg) {
         simple("    &8| &r" + msg);
     }
     public void simple(String msg) {
-        System.out.println(ColorUtil.toColor(msg));
+        Bukkit.getLogger().info(ColorUtil.toColor(msg));
     }
 
     public static class Messages {

@@ -70,7 +70,7 @@ public class TimeUtil {
         long minutes = (TimeUnit.SECONDS.toMinutes(input) - TimeUnit.HOURS.toMinutes(hours) - TimeUnit.DAYS.toMinutes(days));
         long seconds = (TimeUnit.SECONDS.toSeconds(input) - TimeUnit.MINUTES.toSeconds(minutes)            - TimeUnit.HOURS.toSeconds(hours) - TimeUnit.DAYS.toSeconds(days));
 
-        if (days == 0){
+        if (days == 0) {
             if (hours != 0 && minutes != 0 && seconds == 0) {
                 timeString = setCorrectForm(hours, TimeType.HOUR) + " и " + setCorrectForm(minutes, TimeType.MINUTE);
             }

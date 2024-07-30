@@ -14,7 +14,7 @@ public class RandomUtil {
     public static int getInt(int min, int max) {
         return (int) (min + (max - min) * Math.random());
     }
-    public static Object getRandomFromList(List<?> list) {
+    public static <T> T getRandomFromList(List<T> list) {
         return list.get(random.nextInt(list.size()));
     }
 }

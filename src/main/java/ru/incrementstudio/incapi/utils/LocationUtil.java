@@ -25,6 +25,7 @@ public class LocationUtil {
         }
         return getHighestBlockYInNetherAt(world,x, y - 1, z);
     }
+    
     public static List<Block> getNearbyBlocks(Location center, int radius) {
         List<Block> blocks = new ArrayList<>();
         for (int x = center.getBlockX() - radius; x <= center.getBlockX() + radius; x++) {

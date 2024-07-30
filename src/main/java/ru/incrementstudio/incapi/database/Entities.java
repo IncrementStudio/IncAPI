@@ -1,6 +1,5 @@
 package ru.incrementstudio.incapi.database;
 
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 
 import java.util.Arrays;
