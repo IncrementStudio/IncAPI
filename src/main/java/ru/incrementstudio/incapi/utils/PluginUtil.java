@@ -32,7 +32,7 @@ public class PluginUtil {
             command.setExecutor(commandExecutor);
             command.setTabCompleter(tabCompleter);
         } catch (Exception e) {
-            plugin.logger().error(
+            plugin.getLogger().error(
                     "Не удалось зарегистрировать команду &6" + commandName,
                     e.toString()
             );
