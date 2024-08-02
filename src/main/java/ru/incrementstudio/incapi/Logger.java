@@ -37,6 +37,10 @@ public class Logger extends java.util.logging.Logger {
         severe(header + "&c:");
         severe("> " + msg);
     }
+    public void warn(String header, String msg) {
+        warning(header + "&e:");
+        warning("> " + msg);
+    }
     public void action(String msg) {
         simple("  &8- &f" + msg);
     }
