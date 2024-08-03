@@ -1,17 +1,14 @@
 package ru.incrementstudio.incapi.utils;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class StringUtil {
     public static String repeat(String pattern, int count) {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
             result.append(pattern);
-        }
         return result.toString();
     }
 
@@ -68,12 +65,15 @@ public class StringUtil {
 //    }
 
     public static String getRandomString(int length) {
-        String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        return getRandomString(length, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+    }
+
+    public static String getRandomString(int length, String chars) {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
-            int randomIndex = random.nextInt(CHARACTERS.length());
-            char randomChar = CHARACTERS.charAt(randomIndex);
+            int randomIndex = random.nextInt(chars.length());
+            char randomChar = chars.charAt(randomIndex);
             sb.append(randomChar);
         }
         return sb.toString();

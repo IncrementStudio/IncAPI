@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class Input implements Listener {
-    private static final HashMap<Player, Map.Entry<Consumer<String>, Map.Entry<Boolean, Action>>> players = new HashMap<>();
+    private static final HashMap<Player, Map.Entry<Consumer<String>, Map.Entry<Boolean, Runnable>>> players = new HashMap<>();
     public static void addListener(Player player, Consumer<String> onChat) {
         players.put(player, Map.entry(onChat, Map.entry(false, () -> {})));
     }
-    public static void addCancellableListener(Player player, Consumer<String> onChat, Action onCancel) {
+    public static void addCancellableListener(Player player, Consumer<String> onChat, Runnable onCancel) {
         players.put(player, Map.entry(onChat, Map.entry(true, onCancel)));
     }
     public static void removeListener(Player player) {
@@ -37,7 +37,7 @@ public class Input implements Listener {
         if (!players.containsKey(event.getPlayer())) return;
         if (!players.get(event.getPlayer()).getValue().getKey()) return;
 
-        players.get(event.getPlayer()).getValue().getValue().execute();
+        players.get(event.getPlayer()).getValue().getValue().run();
         players.remove(event.getPlayer());
     }
 
@@ -46,7 +46,7 @@ public class Input implements Listener {
         players.remove(event.getPlayer());
     }
 
-    public static HashMap<Player, Map.Entry<Consumer<String>, Map.Entry<Boolean, Action>>> getPlayers() {
+    public static HashMap<Player, Map.Entry<Consumer<String>, Map.Entry<Boolean, Runnable>>> getPlayers() {
         return players;
     }
 }

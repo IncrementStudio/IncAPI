@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class LocationUtil {
     public static int getHighestBlockYInNetherAt(World world, int x, int y, int z) {
@@ -41,5 +42,19 @@ public class LocationUtil {
             }
         }
         return blocks;
+    }
+
+    public static void randomInArea(Location center, double radius, int count, Consumer<Location> func) {
+        Location location;
+        for (int i = 0; i < count; i++) {
+            do {
+                location = center.clone().add(
+                        RandomUtil.getDouble(-radius, radius),
+                        RandomUtil.getDouble(-radius, radius),
+                        RandomUtil.getDouble(-radius, radius)
+                );
+            } while(center.distance(location) > radius);
+            func.accept(location);
+        }
     }
 }
