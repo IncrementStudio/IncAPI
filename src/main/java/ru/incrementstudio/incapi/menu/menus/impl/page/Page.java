@@ -1,10 +1,15 @@
-package ru.incrementstudio.incapi.menu;
+package ru.incrementstudio.incapi.menu.menus.impl.page;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import ru.incrementstudio.incapi.menu.Data;
+import ru.incrementstudio.incapi.menu.Display;
+import ru.incrementstudio.incapi.menu.elements.Item;
+import ru.incrementstudio.incapi.menu.holders.impl.PageInventoryHolder;
+import ru.incrementstudio.incapi.menu.menus.Menu;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +71,7 @@ public class Page {
         return this;
     }
     public Page apply(boolean canClick, boolean canDrag, boolean canDrop) {
-        inventory = Bukkit.createInventory(new PageInventoryHolder(this, canClick, canDrag, canDrop), getSize(), title);
+        inventory = Bukkit.createInventory(new PageInventoryHolder(canClick, canDrag, canDrop, this), getSize(), title);
         for (int i = 0; i < getSize(); i++) {
             Item item = display.getItems()[i];
             if (item == null) continue;

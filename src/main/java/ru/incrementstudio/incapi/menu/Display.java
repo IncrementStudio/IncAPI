@@ -1,6 +1,7 @@
 package ru.incrementstudio.incapi.menu;
 
 import org.bukkit.inventory.ItemStack;
+import ru.incrementstudio.incapi.menu.elements.Item;
 
 public class Display {
     private final Item[] items;

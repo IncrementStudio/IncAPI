@@ -1,31 +1,14 @@
-package ru.incrementstudio.incapi.menu;
+package ru.incrementstudio.incapi.menu.menus.impl.page;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
+import ru.incrementstudio.incapi.menu.Data;
+import ru.incrementstudio.incapi.menu.menus.Menu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Menu {
+public class PageMenu extends Menu {
     private final List<Page> pages = new ArrayList<>();
-    public final List<Page> getPages() {
-        return pages;
-    }
-    public final Page getPage(int index) {
-        return pages.get(index);
-    }
-    private final Data data = new Data();
-    public final Data getData() {
-        return data;
-    }
-    private final Map<Player, Data> viewers = new HashMap<>();
-    public final Map<Player, Data> getViewers() {
-        return viewers;
-    }
 
     public final void show(Player player) {
         show(player, 0);
@@ -37,13 +20,18 @@ public class Menu {
         show(player, page, new Data());
     }
     public final void show(Player player, int page, Data data) {
-        viewers.put(player, data);
+        getViewers().put(player, data);
         getPage(page).show(player);
     }
+
     public final void reopenAll() {
         for (Page page : pages) {
             page.reopenAll();
         }
+    }
+
+    public final Page getPage(int index) {
+        return pages.get(index);
     }
 
     public final Menu addPage(Page page) {
@@ -72,9 +60,5 @@ public class Menu {
     public final Menu clearPages() {
         pages.clear();
         return this;
-    }
-
-    public void onPlayerClose(Player player, InventoryCloseEvent event) {
-
     }
 }

@@ -1,4 +1,4 @@
-package ru.incrementstudio.incapi.menu;
+package ru.incrementstudio.incapi.menu.elements;
 
 import org.bukkit.inventory.ItemStack;
 
