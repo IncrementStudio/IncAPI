@@ -1,5 +1,6 @@
 package ru.incrementstudio.incapi.menu.holders.impl;
 
+import ru.incrementstudio.incapi.menu.Data;
 import ru.incrementstudio.incapi.menu.menus.impl.page.Page;
 import ru.incrementstudio.incapi.menu.holders.IncInventoryHolder;
 
@@ -8,6 +9,11 @@ public class PageInventoryHolder extends IncInventoryHolder {
 
     public PageInventoryHolder(boolean canClick, boolean canDrag, boolean canDrop, Page page) {
         super(canClick, canDrag, canDrop, page.getMenu());
+        this.page = page;
+    }
+
+    public PageInventoryHolder(boolean canClick, boolean canDrag, boolean canDrop, Page page, Data data) {
+        super(canClick, canDrag, canDrop, page.getMenu(), data);
         this.page = page;
     }
 

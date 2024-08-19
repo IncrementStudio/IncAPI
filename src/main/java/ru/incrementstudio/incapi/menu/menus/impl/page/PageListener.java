@@ -6,11 +6,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import ru.incrementstudio.incapi.menu.MenuListener;
 import ru.incrementstudio.incapi.menu.elements.Item;
 import ru.incrementstudio.incapi.menu.elements.impl.Button;
 import ru.incrementstudio.incapi.menu.holders.impl.PageInventoryHolder;
 
-public class PageListener implements Listener {
+public class PageListener extends MenuListener implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Inventory inventory = event.getClickedInventory();

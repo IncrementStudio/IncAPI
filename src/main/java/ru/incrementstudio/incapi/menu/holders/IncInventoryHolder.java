@@ -3,6 +3,7 @@ package ru.incrementstudio.incapi.menu.holders;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
+import ru.incrementstudio.incapi.IncPlugin;
 import ru.incrementstudio.incapi.menu.Data;
 import ru.incrementstudio.incapi.menu.menus.Menu;
 
@@ -20,7 +21,7 @@ public class IncInventoryHolder implements InventoryHolder {
         this.canDrop = canDrop;
     }
 
-    public IncInventoryHolder(boolean canClick, boolean canDrag, boolean canDrop, Data data, Menu menu) {
+    public IncInventoryHolder(boolean canClick, boolean canDrag, boolean canDrop, Menu menu, Data data) {
         this.menu = menu;
         this.canClick = canClick;
         this.canDrag = canDrag;

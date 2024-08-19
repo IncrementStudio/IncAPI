@@ -6,13 +6,16 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import ru.incrementstudio.incapi.IncPlugin;
 import ru.incrementstudio.incapi.configs.Config;
 import ru.incrementstudio.incapi.menu.Data;
 import ru.incrementstudio.incapi.menu.holders.impl.LootInventoryHolder;
 import ru.incrementstudio.incapi.menu.menus.Menu;
 import ru.incrementstudio.incapi.utils.ColorUtil;
+import ru.incrementstudio.incapi.utils.builders.ItemBuilder;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,16 +30,18 @@ public class LootMenu extends Menu {
     private Material chanceMaterial;
     private Inventory inventory;
 
-    public LootMenu(Config config, ConfigurationSection lootSection) {
+    public LootMenu(IncPlugin plugin, Config config, ConfigurationSection lootSection) {
+        super(plugin);
+        registerListener(new LootListener());
         if (config == null) {
-            IncPlugin.getInstance().getLogger().error(
+            plugin.getLogger().error(
                     "Ошибка при получении конфига",
                     "Конфиг для сохранения лута не найден!"
             );
             return;
         }
         if (lootSection == null) {
-            IncPlugin.getInstance().getLogger().error(
+            plugin.getLogger().error(
                     "Ошибка при получении секции",
                     "Секция, в которой нужно сохранять лут, не найдена!"
             );
@@ -73,12 +78,13 @@ public class LootMenu extends Menu {
     }
 
     private void setItemsToBase() {
+        items.clear();
         for (String key : lootSection.getKeys(false)) {
             try {
                 int slot = Integer.parseInt(key);
                 ConfigurationSection itemSection = lootSection.getConfigurationSection(key);
                 if (itemSection == null) {
-                    IncPlugin.getInstance().getLogger().warn(
+                    getPlugin().getLogger().warn(
                             "Ошибка при получении лута",
                             "Секция с предметом по слоту &6" + key + " &cне найдена!"
                     );
@@ -86,7 +92,7 @@ public class LootMenu extends Menu {
                 }
                 ItemStack itemStack = itemSection.getItemStack("item");
                 if (itemStack == null) {
-                    IncPlugin.getInstance().getLogger().warn(
+                    getPlugin().getLogger().warn(
                             "Ошибка при получении лута",
                             "Предмет по слоту &6" + key + " &cравен null!"
                     );
@@ -94,7 +100,7 @@ public class LootMenu extends Menu {
                 }
                 items.put(slot, itemStack);
             } catch (NumberFormatException e) {
-                IncPlugin.getInstance().getLogger().warn(
+                getPlugin().getLogger().warn(
                         "Ошибка при получении лута",
                         "&6" + key + " &cне является номером слота!"
                 );
@@ -104,6 +110,7 @@ public class LootMenu extends Menu {
 
     private void setItemsToInventory() {
         if (inventory == null) return;
+        inventory.clear();
         for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
             int slot = entry.getKey();
             ItemStack itemStack = entry.getValue();
@@ -112,14 +119,11 @@ public class LootMenu extends Menu {
     }
 
     public LootMenu apply() {
-        inventory = Bukkit.createInventory(new LootInventoryHolder(true, true, true, this), size, title);
+        inventory = Bukkit.createInventory(
+                new LootInventoryHolder(true, true, true, this, LootMenuType.MAIN),
+                size, title);
         setItemsToInventory();
         return this;
-    }
-
-    private void reopenAll() {
-        for (Player player : getViewers().keySet())
-            player.openInventory(inventory);
     }
 
     public void save() {
@@ -142,73 +146,37 @@ public class LootMenu extends Menu {
         config.save();
         setItemsToBase();
         setItemsToInventory();
-        reopenAll();
     }
 
     public void showEditMenu(Player player, int slot) {
-        // TODO
-//        Menu menu = new Menu() {
-//            @Override
-//            public void onPlayerClose(Player player, InventoryCloseEvent event) {
-//                Bukkit.getScheduler().runTask(Plugin.getInstance(), () -> back.show(player));
-//            }
-//        };
-//        menu.addPage(new Page("Редактирование предмета", 27)
-//                .setSlot(new Button(getChanceItem(slot)) {
-//                    @Override
-//                    public void onClick(Player player, InventoryClickEvent inventoryClickEvent) {
-//                        inventoryClickEvent.setCancelled(true);
-//                        if (inventoryClickEvent.isLeftClick()) {
-//                            if (inventoryClickEvent.isShiftClick()) {
-//                                int chance = Math.min(100, Math.max(0, Plugin.config.get().getInt("phases.loot.loot." + slot + ".chance", 100) + 10));
-//                                Plugin.config.get().set("phases.loot.loot." + slot + ".chance", chance);
-//                            } else {
-//                                int chance = Math.min(100, Math.max(0, Plugin.config.get().getInt("phases.loot.loot." + slot + ".chance", 100) + 1));
-//                                Plugin.config.get().set("phases.loot.loot." + slot + ".chance", chance);
-//                            }
-//                        } else if (inventoryClickEvent.isRightClick()) {
-//                            if (inventoryClickEvent.isShiftClick()) {
-//                                int chance = Math.min(100, Math.max(0, Plugin.config.get().getInt("phases.loot.loot." + slot + ".chance", 100) - 10));
-//                                Plugin.config.get().set("phases.loot.loot." + slot + ".chance", chance);
-//                            } else {
-//                                int chance = Math.min(100, Math.max(0, Plugin.config.get().getInt("phases.loot.loot." + slot + ".chance", 100) - 1));
-//                                Plugin.config.get().set("phases.loot.loot." + slot + ".chance", chance);
-//                            }
-//                        }
-//                        Plugin.config.save();
-//                        ItemMeta meta = getItemStack().getItemMeta();
-//                        meta.setLore(ColorUtil.toColor(Arrays.asList(
-//                                "&fШанс предмета: &a" + Plugin.config.get().getInt("phases.loot.loot." + slot + ".chance", 100) + "%",
-//                                "&fНажмите &eЛКМ&f, чтобы увеличить на &e1",
-//                                "&fНажмите &eПКМ&f, чтобы уменьшить на &e1",
-//                                "&fНажмите &eShift + ЛКМ&f, чтобы увеличить на &e10",
-//                                "&fНажмите &eShift + ПКМ&f, чтобы уменьшить на &e10"))
-//                        );
-//                        getItemStack().setItemMeta(meta);
-//                        inventoryClickEvent.getClickedInventory().setItem(13, getItemStack());
-//                    }
-//                }, 13)
-//                .setSlots(new Item(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName(" ").build()),
-//                        0, 1, 2, 3, 4, 5, 6, 7, 8,
-//                        9, 17,
-//                        18, 19, 20, 21, 22, 23, 24, 25, 26)
-//                .apply(false, false, false)
-//        );
-//        return menu;
+        Inventory chanceIntentory = Bukkit.createInventory(
+                new LootInventoryHolder(false, false, false, this, LootMenuType.CHANCE),
+                27, "Редактирование предмета");
+        chanceIntentory.setItem(13, getChanceItem(slot));
+        int[] border =
+                {0,  1,  2,  3,  4,  5,  6,  7,  8,
+                 9,                              17,
+                 18, 19, 20, 21, 22, 23, 24, 25, 26};
+        for (int borderSlot: border) {
+            chanceIntentory.setItem(borderSlot, new ItemBuilder(borderMaterial).setName("").build());
+        }
+        getViewers().put(player, new Data());
+        player.openInventory(chanceIntentory);
     }
 
-//    public static ItemStack getChanceItem(int slot) {
-//        int chance = Plugin.config.get().getInt("phases.loot.loot." + slot + ".chance", 100);
-//        return new ItemBuilder(Material.COMPASS)
-//                .setName("&bШанс появления")
-//                .setLore(Arrays.asList(
-//                        "&fШанс предмета: &a" + chance + "%",
-//                        "&fНажмите &eЛКМ&f, чтобы увеличить на &e1",
-//                        "&fНажмите &eПКМ&f, чтобы уменьшить на &e1",
-//                        "&fНажмите &eShift + ЛКМ&f, чтобы увеличить на &e10",
-//                        "&fНажмите &eShift + ПКМ&f, чтобы уменьшить на &e10"))
-//                .build();
-//    }
+    private ItemStack getChanceItem(int slot) {
+        int chance = lootSection.getInt(slot + ".chance", 100);
+        return new ItemBuilder(chanceMaterial)
+                .setName("&bШанс появления")
+                .setLore(Arrays.asList(
+                        "&fШанс предмета: &a" + chance + "%",
+                        "&fНажмите &eЛКМ&f, чтобы увеличить на &e1",
+                        "&fНажмите &eПКМ&f, чтобы уменьшить на &e1",
+                        "&fНажмите &eShift + ЛКМ&f, чтобы увеличить на &e10",
+                        "&fНажмите &eShift + ПКМ&f, чтобы уменьшить на &e10"))
+                .setPersistentData(new ItemBuilder.PersistentData("slot", PersistentDataType.INTEGER, slot))
+                .build();
+    }
 
 
     @Override
@@ -220,5 +188,37 @@ public class LootMenu extends Menu {
     public void show(Player player, Data data) {
         getViewers().put(player, data);
         player.openInventory(inventory);
+    }
+
+    public Map<Integer, ItemStack> getItems() {
+        return items;
+    }
+
+    public ConfigurationSection getLootSection() {
+        return lootSection;
+    }
+
+    public Config getConfig() {
+        return config;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public Material getChanceMaterial() {
+        return chanceMaterial;
+    }
+
+    public Material getBorderMaterial() {
+        return borderMaterial;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

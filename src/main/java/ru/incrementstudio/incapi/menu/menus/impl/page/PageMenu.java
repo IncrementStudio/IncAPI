@@ -1,6 +1,7 @@
 package ru.incrementstudio.incapi.menu.menus.impl.page;
 
 import org.bukkit.entity.Player;
+import ru.incrementstudio.incapi.IncPlugin;
 import ru.incrementstudio.incapi.menu.Data;
 import ru.incrementstudio.incapi.menu.menus.Menu;
 
@@ -9,6 +10,11 @@ import java.util.List;
 
 public class PageMenu extends Menu {
     private final List<Page> pages = new ArrayList<>();
+
+    public PageMenu(IncPlugin plugin) {
+        super(plugin);
+        registerListener(new PageListener());
+    }
 
     public final void show(Player player) {
         show(player, 0);
