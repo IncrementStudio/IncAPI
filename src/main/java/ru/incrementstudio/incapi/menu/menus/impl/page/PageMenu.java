@@ -13,7 +13,6 @@ public class PageMenu extends Menu {
 
     public PageMenu(IncPlugin plugin) {
         super(plugin);
-        registerListener(new PageListener());
     }
 
     public final void show(Player player) {

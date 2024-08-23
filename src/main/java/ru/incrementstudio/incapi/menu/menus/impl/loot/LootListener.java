@@ -72,6 +72,7 @@ public class LootListener extends MenuListener implements Listener {
                 if (itemStack == null) return;
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 if (itemMeta == null) return;
+                if (!itemMeta.getPersistentDataContainer().has(NamespacedKey.fromString("slot"), PersistentDataType.INTEGER)) return;
                 int slot = itemMeta.getPersistentDataContainer().get(NamespacedKey.fromString("slot"), PersistentDataType.INTEGER);
                 if (event.isLeftClick()) {
                     if (event.isShiftClick()) {

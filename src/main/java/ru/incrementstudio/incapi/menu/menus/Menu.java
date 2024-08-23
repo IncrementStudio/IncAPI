@@ -15,14 +15,8 @@ public abstract class Menu {
     private final IncPlugin plugin;
     private final Data data = new Data();
     private final Map<Player, Data> viewers = new HashMap<>();
-
     public Menu(IncPlugin plugin) {
         this.plugin = plugin;
-        registerListener(new MenuListener());
-    }
-
-    protected void registerListener(MenuListener listener) {
-        Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
     }
 
     public abstract void show(Player player);

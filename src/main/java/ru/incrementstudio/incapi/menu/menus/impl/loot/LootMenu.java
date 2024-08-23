@@ -32,7 +32,6 @@ public class LootMenu extends Menu {
 
     public LootMenu(IncPlugin plugin, Config config, ConfigurationSection lootSection) {
         super(plugin);
-        registerListener(new LootListener());
         if (config == null) {
             plugin.getLogger().error(
                     "Ошибка при получении конфига",
