@@ -1,12 +1,10 @@
 package ru.incrementstudio.incapi.menu.menus;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import ru.incrementstudio.incapi.IncPlugin;
 import ru.incrementstudio.incapi.menu.Data;
-import ru.incrementstudio.incapi.menu.MenuListener;
 
 import java.util.HashMap;
 import java.util.Map;

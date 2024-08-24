@@ -66,4 +66,8 @@ public class PageMenu extends Menu {
         pages.clear();
         return this;
     }
+
+    public List<Page> getPages() {
+        return pages;
+    }
 }

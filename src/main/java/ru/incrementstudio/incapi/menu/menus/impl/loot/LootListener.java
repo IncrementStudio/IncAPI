@@ -2,6 +2,7 @@ package ru.incrementstudio.incapi.menu.menus.impl.loot;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,6 +36,7 @@ public class LootListener extends MenuListener implements Listener {
             if (item != null && !item.getType().isAir() && event.getClickedInventory() == inventory) {
                 if (event.isRightClick()) {
                     event.setCancelled(true);
+                    player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 10, 10);
                     lootMenu.showEditMenu(player, event.getSlot());
                 }
             }
@@ -74,6 +76,7 @@ public class LootListener extends MenuListener implements Listener {
                 if (itemMeta == null) return;
                 if (!itemMeta.getPersistentDataContainer().has(NamespacedKey.fromString("slot"), PersistentDataType.INTEGER)) return;
                 int slot = itemMeta.getPersistentDataContainer().get(NamespacedKey.fromString("slot"), PersistentDataType.INTEGER);
+                player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 10, 10);
                 if (event.isLeftClick()) {
                     if (event.isShiftClick()) {
                         int chance = Math.min(100, Math.max(0, holder.getMenu().getLootSection().getInt(slot + ".chance", 100) + 10));
