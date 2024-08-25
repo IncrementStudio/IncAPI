@@ -37,7 +37,7 @@ public class LootListener extends MenuListener implements Listener {
                 if (event.isRightClick()) {
                     event.setCancelled(true);
                     player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 10, 10);
-                    lootMenu.showEditMenu(player, event.getSlot());
+                    Bukkit.getScheduler().runTask(holder.getMenu().getPlugin(), () -> lootMenu.showEditMenu(player, event.getSlot()));
                 }
             }
             Bukkit.getScheduler().runTask(holder.getMenu().getPlugin(), lootMenu::save);
