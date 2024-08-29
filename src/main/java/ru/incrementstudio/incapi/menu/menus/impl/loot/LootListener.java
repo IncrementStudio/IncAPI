@@ -13,13 +13,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import ru.incrementstudio.incapi.menu.MenuListener;
 import ru.incrementstudio.incapi.menu.holders.impl.LootInventoryHolder;
 import ru.incrementstudio.incapi.utils.ColorUtil;
 
 import java.util.Arrays;
 
-public class LootListener extends MenuListener implements Listener {
+public class LootListener implements Listener {
 
     @EventHandler
     public void onClickItemInLootMenu(InventoryClickEvent event) {
