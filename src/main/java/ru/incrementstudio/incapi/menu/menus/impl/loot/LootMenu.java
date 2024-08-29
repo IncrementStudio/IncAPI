@@ -159,8 +159,8 @@ public class LootMenu extends Menu {
         for (int borderSlot: border) {
             chanceIntentory.setItem(borderSlot, new ItemBuilder(borderMaterial).setName("").build());
         }
-        getViewers().put(player, data);
         player.openInventory(chanceIntentory);
+        getViewers().put(player, data);
     }
 
     private ItemStack getChanceItem(int slot) {
@@ -180,13 +180,13 @@ public class LootMenu extends Menu {
 
     @Override
     public void show(Player player) {
-        getViewers().put(player, new Data());
         player.openInventory(inventory);
+        getViewers().put(player, new Data());
     }
 
     public void show(Player player, Data data) {
-        getViewers().put(player, data);
         player.openInventory(inventory);
+        getViewers().put(player, data);
     }
 
     public Map<Integer, ItemStack> getItems() {

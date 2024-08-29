@@ -112,7 +112,7 @@ public class LootListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerClose(InventoryCloseEvent event) {
+    public void onEditMenuClose(InventoryCloseEvent event) {
         if (!(event.getPlayer() instanceof Player))
             return;
         Player player = (Player) event.getPlayer();
