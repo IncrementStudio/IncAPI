@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import ru.incrementstudio.incapi.menu.Data;
 import ru.incrementstudio.incapi.menu.holders.impl.LootInventoryHolder;
 import ru.incrementstudio.incapi.utils.ColorUtil;
 
@@ -20,7 +22,7 @@ import java.util.Arrays;
 
 public class LootListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onClickItemInLootMenu(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player))
             return;
@@ -36,7 +38,9 @@ public class LootListener implements Listener {
                 if (event.isRightClick()) {
                     event.setCancelled(true);
                     player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 10, 10);
-                    Bukkit.getScheduler().runTask(holder.getMenu().getPlugin(), () -> lootMenu.showEditMenu(player, event.getSlot()));
+                    Data data = lootMenu.getViewers().get(player);
+                    Bukkit.getScheduler().runTask(holder.getMenu().getPlugin(), () ->
+                            lootMenu.showEditMenu(player, event.getSlot(), data));
                 }
             }
             Bukkit.getScheduler().runTask(holder.getMenu().getPlugin(), lootMenu::save);
@@ -107,7 +111,7 @@ public class LootListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerClose(InventoryCloseEvent event) {
         if (!(event.getPlayer() instanceof Player))
             return;
@@ -116,8 +120,10 @@ public class LootListener implements Listener {
         if (inventory.getHolder() instanceof LootInventoryHolder) {
             LootInventoryHolder holder = (LootInventoryHolder) inventory.getHolder();
             if (holder.getLootMenuType() != LootMenuType.CHANCE) return;
+            LootMenu lootMenu = holder.getMenu();
+            Data data = lootMenu.getViewers().get(player);
             Bukkit.getScheduler().runTask(holder.getMenu().getPlugin(), () ->
-                    holder.getMenu().show(player));
+                    lootMenu.show(player, data));
         }
     }
 }

@@ -147,7 +147,7 @@ public class LootMenu extends Menu {
         setItemsToInventory();
     }
 
-    public void showEditMenu(Player player, int slot) {
+    public void showEditMenu(Player player, int slot, Data data) {
         Inventory chanceIntentory = Bukkit.createInventory(
                 new LootInventoryHolder(false, false, false, this, LootMenuType.CHANCE),
                 27, "Редактирование предмета");
@@ -159,7 +159,7 @@ public class LootMenu extends Menu {
         for (int borderSlot: border) {
             chanceIntentory.setItem(borderSlot, new ItemBuilder(borderMaterial).setName("").build());
         }
-        getViewers().put(player, new Data());
+        getViewers().put(player, data);
         player.openInventory(chanceIntentory);
     }
 
