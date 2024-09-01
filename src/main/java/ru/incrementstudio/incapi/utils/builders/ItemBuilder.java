@@ -275,5 +275,15 @@ public class ItemBuilder {
         }
     }
 
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
 
+    public ItemMeta getItemMeta() {
+        return itemMeta;
+    }
+
+    public boolean isColored() {
+        return isColored;
+    }
 }
