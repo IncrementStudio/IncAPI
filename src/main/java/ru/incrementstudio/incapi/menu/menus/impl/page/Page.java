@@ -18,7 +18,7 @@ public class Page {
     private Display display;
     private String title;
     private Inventory inventory;
-    private Menu menu;
+    private PageMenu menu;
     private final Data data = new Data();
     private final Map<Player, Data> viewers = new HashMap<>();
     public final Map<Player, Data> getViewers() {
@@ -120,10 +120,10 @@ public class Page {
         }
         return this;
     }
-    public Menu getMenu() {
+    public PageMenu getMenu() {
         return menu;
     }
-    public void setMenu(Menu menu) {
+    public void setMenu(PageMenu menu) {
         this.menu = menu;
     }
     public int getSize() {

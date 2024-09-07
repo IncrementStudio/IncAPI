@@ -39,30 +39,30 @@ public class PageMenu extends Menu {
         return pages.get(index);
     }
 
-    public final Menu addPage(Page page) {
+    public final PageMenu addPage(Page page) {
         page.setMenu(this);
         pages.add(page);
         return this;
     }
-    public final Menu insertPage(Page page, int index) {
+    public final PageMenu insertPage(Page page, int index) {
         page.setMenu(this);
         pages.add(index, page);
         return this;
     }
-    public final Menu setPage(int index, Page page) {
+    public final PageMenu setPage(int index, Page page) {
         page.setMenu(this);
         pages.set(index, page);
         return this;
     }
-    public final Menu removePage(Page page) {
+    public final PageMenu removePage(Page page) {
         pages.remove(page);
         return this;
     }
-    public final Menu removePage(int index) {
+    public final PageMenu removePage(int index) {
         pages.remove(index);
         return this;
     }
-    public final Menu clearPages() {
+    public final PageMenu clearPages() {
         pages.clear();
         return this;
     }
