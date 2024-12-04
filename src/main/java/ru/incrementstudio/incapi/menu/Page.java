@@ -1,136 +1,226 @@
 package ru.incrementstudio.incapi.menu;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import ru.incrementstudio.incapi.menu.content.Item;
+import ru.incrementstudio.incapi.menu.menus.Menu;
 
 public class Page {
-    private Display display;
     private String title;
+    private Display display;
+    private PageHolder holder;
     private Inventory inventory;
-    private Menu menu;
     private final Data data = new Data();
-    private final Map<Player, Data> viewers = new HashMap<>();
-    public final Map<Player, Data> getViewers() {
-        return viewers;
-    }
+    private final ViewersMap viewers = new ViewersMap();
+    private Menu menu;
+    private boolean clickable = true, draggable = true, droppable = true;
+    private Mask clickMask, dragMask;
 
     public Page() {
-        title = "";
-        setDisplay(new Display(54));
+        this(54);
     }
+
     public Page(int size) {
-        title = "";
-        setDisplay(new Display(size));
+        this("", size);
     }
+
     public Page(String title, int size) {
-        this.title = title;
-        setDisplay(new Display(size));
+        this(title, size, new PageHolder());
     }
+
     public Page(String title, Display display) {
-        this.title = title;
-        setDisplay(display);
+        this(title, display, new PageHolder());
     }
 
-    public Page setTitle(String title) {
-        this.title = title;
-        return this;
+    public Page(String title, int size, PageHolder holder) {
+        this(title, new Display(size), holder);
     }
-    public Page setDisplay(Display display) {
-        if (display == null)
-            throw new NullPointerException("Display is null");
+
+    public Page(String title, Display display, PageHolder holder) {
+        this.title = title;
         this.display = display;
-        return this;
-    }
-    public Page overlayDisplay(Display display) {
-        for (int i = 0; i < Math.min(getSize(), display.getSize()); i++) {
-            if (display.getItems()[i] == null
-                    || display.getItems()[i].getItemStack().getType() == Material.AIR)
-                continue;
-            this.display.setSlot(display.getItems()[i], i);
-        }
-        return this;
-    }
-    public Page underlayDisplay(Display display) {
-        for (int i = 0; i < Math.min(getSize(), display.getSize()); i++) {
-            if ((this.display.getItems()[i] != null && this.display.getItems()[i].getItemStack().getType() != Material.AIR)
-                    || (display.getItems()[i] == null || display.getItems()[i].getItemStack().getType() == Material.AIR))
-                continue;
-            this.display.setSlot(display.getItems()[i], i);
-        }
-        return this;
-    }
-    public Page apply(boolean canClick, boolean canDrag, boolean canDrop) {
-        inventory = Bukkit.createInventory(new PageInventoryHolder(this, canClick, canDrag, canDrop), getSize(), title);
-        for (int i = 0; i < getSize(); i++) {
-            Item item = display.getItems()[i];
-            if (item == null) continue;
-            inventory.setItem(i, item.getItemStack());
-        }
-        return this;
-    }
-    public Page setSlot(Item item, int slot) {
-        display.setSlot(item, slot);
-        return this;
-    }
-    public Page setSlot(ItemStack itemStack, int slot) {
-        display.setSlot(itemStack, slot);
-        return this;
-    }
-    public Page setSlots(Item item, int... slots) {
-        display.setSlots(item, slots);
-        return this;
-    }
-    public Page setSlots(ItemStack itemStack, int... slots) {
-        display.setSlots(itemStack, slots);
-        return this;
+        holder.setPage(this);
+        this.holder = holder;
+        apply();
     }
 
-    public void show(Player player) {
-        viewers.put(player, new Data());
-        player.openInventory(inventory);
+    public String getTitle() {
+        return title;
     }
-    public void show(Player player, Data data) {
-        viewers.put(player, data);
-        player.openInventory(inventory);
+
+    public int getSize() {
+        return display.getSize();
     }
-    public void reopenAll() {
-        for (Player player : viewers.keySet())
-            player.openInventory(inventory);
+
+    public PageHolder getHolder() {
+        return holder;
     }
 
     public Display getDisplay() {
         return display;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
 
-    public Page clearDisplay() {
-        for (int i = 0; i < display.getSize(); i++) {
-            display.setSlot(new ItemStack(Material.AIR), i);
-        }
-        return this;
-    }
-    public Menu getMenu() {
-        return menu;
-    }
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
-    public int getSize() {
-        return display.getSize();
-    }
-    public String getTitle() {
-        return title;
-    }
     public Data getData() {
         return data;
     }
-    public Inventory getInventory() {
-        return inventory;
+
+    public ViewersMap getViewers() {
+        return new ViewersMap(viewers);
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public boolean isClickable() {
+        return clickable;
+    }
+
+    public boolean isDraggable() {
+        return draggable;
+    }
+
+    public boolean isDroppable() {
+        return droppable;
+    }
+
+    public Mask getClickMask() {
+        return clickMask;
+    }
+
+    public Mask getDragMask() {
+        return dragMask;
+    }
+
+    public Page open(@NotNull Player player) {
+        viewers.put(player, new Data());
+        player.openInventory(inventory);
+        return this;
+    }
+
+    public Page close(@NotNull Player player) {
+        if (viewers.containsKey(player)) {
+            viewers.remove(player);
+            player.closeInventory();
+        }
+        return this;
+    }
+
+    public Page reopen(Player player) {
+        if (viewers.containsKey(player)) {
+            player.openInventory(inventory);
+        }
+        return this;
+    }
+
+    public Page reopen() {
+        for (Player player : viewers.keySet())
+            player.openInventory(inventory);
+        return this;
+    }
+
+    public Page setTitle(@NotNull String title) {
+        this.title = title;
+        apply();
+        return this;
+    }
+
+    public Page setSize(int size) {
+        display.setSize(size);
+        apply();
+        return this;
+    }
+
+    public Page setHolder(@NotNull PageHolder holder) {
+        this.holder.setPage(null);
+        holder.setPage(this);
+        this.holder = holder;
+        apply();
+        return this;
+    }
+
+    public Page setSlot(@Nullable Item item, int slot) {
+        this.display.setSlot(item, slot);
+        update();
+        return this;
+    }
+
+    public Page setSlots(@Nullable Item item, int... slots) {
+        this.display.setSlots(item, slots);
+        update();
+        return this;
+    }
+
+    public Page setSlots(@NotNull Display display) {
+        this.display = display.clone();
+        update();
+        return this;
+    }
+
+    public Page setClickable(boolean clickable) {
+        this.clickable = clickable;
+        return this;
+    }
+
+    public Page setDraggable(boolean draggable) {
+        this.draggable = draggable;
+        return this;
+    }
+
+    public Page setDroppable(boolean droppable) {
+        this.droppable = droppable;
+        return this;
+    }
+
+    public Page setClickMask(Mask mask) {
+        clickMask = mask;
+        return this;
+    }
+
+    public Page setDragMask(Mask mask) {
+        dragMask = mask;
+        return this;
+    }
+
+    private void update() {
+        for (int i = 0; i < display.getSize(); i++) {
+            Item item = display.getSlot(i);
+            if (item == null)
+                inventory.setItem(i, null);
+            else {
+                Item newItem = item.clone();
+                if (newItem.onPlace(this, i)) {
+                    inventory.setItem(i, newItem.get());
+                }
+            }
+        }
+    }
+
+    private void apply() {
+        inventory = Bukkit.createInventory(holder, getSize(), getTitle());
+        update();
+    }
+
+    public final void onClose(Player player, InventoryCloseEvent event) {
+        viewers.remove(player);
+        onPageClose(player, event);
+    }
+
+    public void onPageClose(Player player, InventoryCloseEvent event) {
+    }
+
+    public final boolean onAdd(Menu menu) {
+        if (this.menu != null)
+            return this.menu == menu;
+        this.menu = menu;
+        return true;
     }
 }

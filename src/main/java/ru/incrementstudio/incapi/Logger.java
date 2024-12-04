@@ -1,54 +1,89 @@
 package ru.incrementstudio.incapi;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import ru.incrementstudio.incapi.utils.ColorUtil;
+import ru.incrementstudio.incapi.util.ColorUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public class Logger extends java.util.logging.Logger {
-    public Logger(Plugin plugin) {
+    private final IncPlugin plugin;
+    public IncPlugin getPlugin() {
+        return plugin;
+    }
+
+    private final List<String> messagePrefixes = new ArrayList<>();
+    public List<String> getMessagePrefixes() {
+        return messagePrefixes;
+    }
+    public String getMessagePrefix() {
+        return String.join("", messagePrefixes);
+    }
+
+    public Logger(IncPlugin plugin) {
         super(plugin.getName(), null);
+        this.plugin = plugin;
         this.setParent(plugin.getServer().getLogger());
         this.setLevel(Level.ALL);
     }
 
     @Override
     public void log(Level level, String msg) {
-        Bukkit.getLogger().log(level, ColorUtil.toColor("&f[&7" + getName() + "&f] &f" + msg));
+        if (!plugin.isEnabling() && !plugin.isDisabling()) {
+            simple(level, ColorUtil.toColor(getPrefix(level) + getMessagePrefix() + msg));
+        } else {
+            simple(level, ColorUtil.toColor("&f" + getMessagePrefix() + msg));
+        }
+    }
+
+    protected String getPrefix(Level level) {
+        if (level == Level.INFO) return "&a[&f" + getName() + "&a] &f";
+        if (level == Level.WARNING) return "&e[&f" + getName() + "&e] ";
+        if (level == Level.SEVERE) return "&c[&f" + getName() + "&c] ";
+        return "&f[&7" + getName() + "&f] ";
     }
 
     @Override
     public void info(String msg) {
-        Bukkit.getLogger().info(ColorUtil.toColor("&a[&f" + getName() + "&a] &f" + msg));
+        log(Level.INFO, msg);
     }
 
     @Override
     public void warning(String msg) {
-        Bukkit.getLogger().warning(ColorUtil.toColor("&e[&f" + getName() + "&e] " + msg));
+        log(Level.WARNING, msg);
     }
 
     @Override
     public void severe(String msg) {
-        Bukkit.getLogger().severe(ColorUtil.toColor("&c[&f" + getName() + "&c] " + msg));
+        log(Level.SEVERE, msg);
     }
 
     public void error(String header, String msg) {
         severe(header + "&c:");
         severe("> " + msg);
     }
-    public void warn(String header, String msg) {
+    public void warning(String header, String msg) {
         warning(header + "&e:");
         warning("> " + msg);
     }
+    @Deprecated(forRemoval = true)
     public void action(String msg) {
-        simple("  &8- &f" + msg);
+        getMessagePrefixes().add(Prefix.ACTION);
+        log(Level.INFO, msg);
+        getMessagePrefixes().remove(getMessagePrefixes().size() - 1);
     }
+    @Deprecated(forRemoval = true)
     public void subaction(String msg) {
-        simple("    &8| &r" + msg);
+        getMessagePrefixes().add(Prefix.SUBACTION);
+        log(Level.INFO, msg);
+        getMessagePrefixes().remove(getMessagePrefixes().size() - 1);
+    }
+    public void simple(Level level, String msg) {
+        Bukkit.getLogger().log(level, msg);
     }
     public void simple(String msg) {
-        Bukkit.getLogger().info(ColorUtil.toColor(msg));
+        simple(Level.INFO, msg);
     }
 
     public static class Messages {
@@ -88,5 +123,10 @@ public class Logger extends java.util.logging.Logger {
             public static final String LANGUAGES = "&fЗагрузка языков&7...";
             public static final String DATABASES = "&fЗагрузка баз данных&7...";
         }
+    }
+    public static class Prefix {
+        public static final String OFFSET = "  ";
+        public static final String ACTION = "&8- &f";
+        public static final String SUBACTION = "  &8| &f";
     }
 }
