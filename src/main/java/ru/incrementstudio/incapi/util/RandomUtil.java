@@ -1,4 +1,4 @@
-package ru.incrementstudio.incapi.utils;
+package ru.incrementstudio.incapi.util;
 
 import java.util.List;
 import java.util.Random;

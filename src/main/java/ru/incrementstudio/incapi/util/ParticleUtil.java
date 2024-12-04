@@ -1,8 +1,9 @@
-package ru.incrementstudio.incapi.utils;
+package ru.incrementstudio.incapi.util;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+
 public class ParticleUtil {
     public static void createParticleArea(Location center, double range, Particle particle, int count) {
         Location particleLocation;
